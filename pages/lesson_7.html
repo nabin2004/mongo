@@ -1,0 +1,106 @@
+
+    <article>
+        <header>
+            <h2>Lesson: 7day</h2>
+            <p><strong>Core Concept:</strong> This section covers concepts demonstrated in <code>7day.js</code>.</p>
+        </header>
+
+        <section>
+            <h3>Explanation</h3>
+            <p>The code below illustrates various MongoDB concepts, commands, and queries. Pay attention to the comments within the code for specific details on what each operation accomplishes.</p>
+        </section>
+
+        <section>
+            <h3>Original JavaScript Code</h3>
+            <pre><code class="language-javascript">/*
+DELETE
+db.students.deleteOne({name:&quot;ram&quot;}) // delete one document where name is &quot;ram&quot;
+db.students.deleteMany({}) // delete all documents
+
+db.createCollection(&quot;users&quot;, {
+  validator: {
+    $jsonSchema: {
+      bsonType: &quot;object&quot;,
+      required: [&quot;name&quot;, &quot;age&quot;], //it contain list of required fields
+      additionalProperties: false, //it means no additional properties are allowed in the document
+
+      properties: {
+        _id: { bsonType: &quot;objectId&quot; }, //you must add _id because you have passed additionalProperties:false
+        name: {
+          bsonType: &quot;string&quot;,
+          description: &quot;must be a string and is required&quot;,
+        },
+        age: {
+          bsonType: &quot;int&quot;,
+          description: &quot;must be an integer and is required&quot;,
+        },
+        isMarried: {
+          bsonType: &quot;bool&quot;,
+          description: &quot;must be a boolean and is required&quot;,
+        }
+      },
+      },
+    },
+  },
+});
+
+db.users.insertOne({ name: &quot;ram&quot;, age: 20, isMarried: false }) // this will work because it has all the required fields and no additional properties
+db.users.insertMany({name: &quot;ram&quot;, age: 20, isMarried: false,country:&quot;nepal&quot; }) // this will not work because it has additional properties
+
+# rename collection
+db.runCommand({
+  collMod: &quot;users&quot;, //collMode = collection modifier
+  validator: {
+    $jsonSchema: {
+      bsonType: &quot;object&quot;,
+      additionalProperties: false,
+      properties: {
+        _id: { bsonType: &quot;objectId&quot; },
+        name: {
+          bsonType: &quot;string&quot;,
+          description: &quot;name should be string&quot;, //description field is  used so for comment purpose only, it  will not shown in error message
+          minLength: 3,
+          maxLength: 20,
+
+        },
+        age: {
+          bsonType: &quot;int&quot;,
+          description: &quot;age should be integer&quot;,
+        },
+        isMarried: {
+          bsonType: &quot;bool&quot;,
+          description: &quot;isMarried should be boolean&quot;,
+        },
+      },
+    },
+  },
+});
+
+db.users.insertMany([
+  {
+    name: &quot;Pramod&quot;,
+    age: 24,
+    isMarried: false
+  },
+  {
+    name: &quot;Ram&quot;,
+    age: 28,
+    isMarried: true
+  },
+  {
+    name: &quot;Sita&quot;,
+    age: 25,
+    isMarried: false
+  }
+]);
+*/</code></pre>
+        </section>
+
+        <section>
+            <h3>Mocked Expected JSON Output</h3>
+            <pre><code class="language-json">{
+  "acknowledged": true,
+  "insertedId": "60d5ec49f1b2c8b1f8e4e1a1"
+}</code></pre>
+        </section>
+    </article>

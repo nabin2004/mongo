@@ -1,0 +1,89 @@
+
+    <article>
+        <header>
+            <h2>Lesson: 1structure</h2>
+            <p><strong>Core Concept:</strong> This section covers concepts demonstrated in <code>1structure.js</code>.</p>
+        </header>
+
+        <section>
+            <h3>Explanation</h3>
+            <p>The code below illustrates various MongoDB concepts, commands, and queries. Pay attention to the comments within the code for specific details on what each operation accomplishes.</p>
+        </section>
+
+        <section>
+            <h3>Original JavaScript Code</h3>
+            <pre><code class="language-javascript">
+/*
+cluster
+    database
+        collection
+            document =&gt; individual data
+
+
+to access database from terminal
+mongosh
+
+1. to see all database
+    show dbs
+
+2. to create database
+    use &lt;databaseName&gt; =&gt; use daraz
+
+3. to create collection
+    db.createCollection(&quot;&lt;collectionName&gt;&quot;)
+
+4. to see all collection
+    show collections
+
+5. naming convention
+    databaseName =&gt; singular
+    collectionName =&gt; plural
+
+daraz
+    products
+    users
+
+
+create document
+db.products.insertOne({name:&quot;laptop&quot;, price:100000})
+db.products.insertMany([{name:&quot;Tv&quot;, price:50000}, {name:&quot;Mobile&quot;, price:20000}])
+
+read document
+db.products.find()
+
+
+update document
+db.products.updateOne(filter, updatedata) =&gt; updateOne({name:&quot;laptop&quot;}, {$set:{price:120000}})
+db.products.updateOne({name:&quot;Tv&quot;}, {$set:{name:&quot;tv&quot;, price:120000, quantity:10}})
+
+delete document
+db.products.deleteOne(filter)
+
+db.products.deleteOne({name:&quot;Mobile&quot;})
+*/
+
+/*
+
+Product.create(data)
+Product.find()
+Product.findById(id)
+Product.findByIdAndUpdate(id, data)=&gt;(filter, data)
+Product.findByIdAndDelete(id)
+
+
+//difference between sql and nosql
+
+*/
+
+
+</code></pre>
+        </section>
+
+        <section>
+            <h3>Mocked Expected JSON Output</h3>
+            <pre><code class="language-json">{
+  "acknowledged": true,
+  "insertedId": "60d5ec49f1b2c8b1f8e4e1a1"
+}</code></pre>
+        </section>
+    </article>

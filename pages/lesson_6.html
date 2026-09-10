@@ -1,0 +1,57 @@
+
+    <article>
+        <header>
+            <h2>Lesson: 6day</h2>
+            <p><strong>Core Concept:</strong> This section covers concepts demonstrated in <code>6day.js</code>.</p>
+        </header>
+
+        <section>
+            <h3>Explanation</h3>
+            <p>The code below illustrates various MongoDB concepts, commands, and queries. Pay attention to the comments within the code for specific details on what each operation accomplishes.</p>
+        </section>
+
+        <section>
+            <h3>Original JavaScript Code</h3>
+            <pre><code class="language-javascript">/*
+db.students.updateMany({name:&quot;ram&quot;}, {$set:{country:&quot;nepal&quot;}}) // update all documents where name is &quot;ram&quot; and set country to &quot;nepal&quot;
+db.students.updateMany({},{$inc:{age:10}}) // increment age by 10 for all documents
+db.students.updateMany({},{$inc:{age:-10}}) // decrement age by 10 for all documents
+db.students.updateMany({},{$mul:{age:10}}) // multiply age by 10 for all documents
+db.students.updateMany({},{$mul:{age:1/10}}) // divide age by 10 for all documents
+db.students.updateMany({},{$rename:{course:&quot;subject&quot;}}) // rename course field to subject for all documents
+db.students.updateMany({},{$unset:{city:&quot;&quot;, age:&quot;&quot;}}) // remove city field from all documents
+
+upsert
+db.students.updateMany(filter, data, upsert)
+
+db.students.updateMany({name:&quot;ram&quot;}, {$set:{country:&quot;nepal&quot;}}, {upsert:true})
+db.students.updateMany({name:&quot;roshan&quot;}, {$set:{country:&quot;nepal&quot;}}, {upsert:true}) // if upsert is false then it will not create a new document if no document is found with the filter condition
+
+delete
+db.students.deleteMany({}) // delete all documents
+
+update array
+db.students.updateMany({name:&quot;ram&quot;}, {$push:{skills:&quot;react&quot;}})
+db.students.updateMany({name:&quot;ram&quot;}, {$addToSet:{skills:&quot;css&quot;}})
+db.students.updateMany({name:&quot;ram&quot;}, {$addToSet:{skills:&quot;python&quot;}})
+
+remove data using pop
+db.students.updateMany({name:&quot;gita&quot;}, {$pop:{skills:1}})
+db.students.updateMany({name:&quot;sita&quot;}, {$pull:{skills:&quot;html&quot;}})
+db.students.updateMany({name:&quot;ram&quot;}, {$pullAll:{skills:[&quot;html&quot;,&quot;react&quot;]}})
+db.students.updateMany({}, {$pull:{experience:{company:&quot;A&quot;}}})
+*/
+</code></pre>
+        </section>
+
+        <section>
+            <h3>Mocked Expected JSON Output</h3>
+            <pre><code class="language-json">[
+  {
+    "_id": "60d5ec49f1b2c8b1f8e4e1a1",
+    "acknowledged": true,
+    "message": "Query executed successfully"
+  }
+]</code></pre>
+        </section>
+    </article>
