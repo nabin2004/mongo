@@ -1,18 +1,13 @@
 
     <article>
         <header>
-            <h2>Lesson: 5day</h2>
-            <p><strong>Core Concept:</strong> This section covers concepts demonstrated in <code>5day.js</code>.</p>
+            <h2>Viva Prep: Projection, Sort, Skip, Limit</h2>
+            <p><strong>Source File:</strong> <code>5day.js</code></p>
         </header>
 
-        <section>
-            <h3>Explanation</h3>
-            <p>The code below illustrates various MongoDB concepts, commands, and queries. Pay attention to the comments within the code for specific details on what each operation accomplishes.</p>
-        </section>
-
-        <section>
-            <h3>Original JavaScript Code</h3>
-            <pre><code class="language-javascript">// db.students.find({}, {age: 1, _id:0}) // _id:0 means we don&#x27;t want to show the _id field in the result and limit doesnot work on _id field because it is unique for each document so it will always be shown in the result but we can hide it by using _id:0 in projection
+        <section style="margin-top: 2rem;">
+            <h3>Raw Queries</h3>
+            <pre><code class="language-mongodb">// db.students.find({}, {age: 1, _id:0}) // _id:0 means we don&#x27;t want to show the _id field in the result and limit doesnot work on _id field because it is unique for each document so it will always be shown in the result but we can hide it by using _id:0 in projection
 //db.students.find({}, {age:0}) // for password or any other field we can use 0 to hide that field
 //db.students.find({}, {age:1}) // for password or any other field we can use 1 to show that field
 //db.students.find({}, {name:1, age:1}) // for password or any other field we can use 1 to show that field
@@ -51,23 +46,35 @@
 
 
 
-// db.students.updateMany
-
-
-
-
-
-</code></pre>
+// db.students.updateMany</code></pre>
         </section>
+    <section style="margin-top: 2rem;"><h3>Deep Dive Concepts</h3>
+            <details style="margin-bottom: 1rem;" open>
+                <summary><strong>Query Modifiers (Projection, Sort, Skip, Limit)</strong></summary>
+                <div style="padding-left: 1rem; border-left: 3px solid var(--primary); margin-top: 1rem;">
+                    <p><strong>The Plain-English Breakdown:</strong> Projection includes/excludes fields. Sort orders results. Skip bypasses documents. Limit restricts the count returned.</p>
+                    <p><strong>Real-World Use Case:</strong> Implementing pagination on a frontend (skip and limit) and hiding passwords (projection).</p>
+                    <p><strong>The "Gotcha" (Common Pitfalls):</strong> <mark>Execution order is ALWAYS: match -> sort -> skip -> limit -> project, regardless of the order you chain the methods in Node.js.</mark></p>
+                    <p><strong>Memorization Hook:</strong> <em>Order doesn't matter in code: Sort-Skip-Limit happens naturally.</em></p>
+                </div>
+            </details>
+            </section>
+        <section style="margin-top: 2rem; background: var(--card-sectionning-background-color); padding: 1.5rem; border-radius: var(--border-radius);">
+            <h3>Examiner Q&A Simulator</h3>
+            <p><small>Click a question to reveal the answer.</small></p>
 
-        <section>
-            <h3>Mocked Expected JSON Output</h3>
-            <pre><code class="language-json">[
-  {
-    "_id": "60d5ec49f1b2c8b1f8e4e1a1",
-    "acknowledged": true,
-    "message": "Query executed successfully"
-  }
-]</code></pre>
-        </section>
+            <details style="margin-bottom: 0.5rem;">
+                <summary><strong>Examiner: If I chain .limit(2).skip(5), what order does MongoDB execute them?</strong></summary>
+                <div style="padding: 1rem; background: var(--background-color); margin-top: 0.5rem; border-radius: var(--border-radius);">
+                    MongoDB always executes sort, then skip, then limit. So it will skip 5, then limit to 2.
+                </div>
+            </details>
+
+            <details style="margin-bottom: 0.5rem;">
+                <summary><strong>Examiner: How do you exclude the _id field in projection?</strong></summary>
+                <div style="padding: 1rem; background: var(--background-color); margin-top: 0.5rem; border-radius: var(--border-radius);">
+                    You must explicitly set it to 0: { _id: 0 }. It is the only field included by default.
+                </div>
+            </details>
+            </section>
     </article>
