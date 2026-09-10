@@ -1,0 +1,82 @@
+
+    <article>
+        <header>
+            <h2>Lesson: 11day</h2>
+            <p><strong>Core Concept:</strong> This section covers concepts demonstrated in <code>11day.js</code>.</p>
+        </header>
+
+        <section>
+            <h3>Explanation</h3>
+            <p>The code below illustrates various MongoDB concepts, commands, and queries. Pay attention to the comments within the code for specific details on what each operation accomplishes.</p>
+        </section>
+
+        <section>
+            <h3>Original JavaScript Code</h3>
+            <pre><code class="language-javascript">/*
+
+db.persons.insertMany([
+  {
+    name: &quot;A&quot;,
+    hobbies: [&quot;dancing&quot;, &quot;cooking&quot;],
+  },
+  {
+    name: &quot;B&quot;,
+    hobbies: [&quot;dancing&quot;, &quot;singing&quot;, &quot;music&quot;],
+  },
+]);
+
+use group and unwind
+db.persons.aggregate([
+  { $unwind: &quot;$hobbies&quot; },{
+    $group: {
+      _id: null,
+      uniqueHobbies: { $addToSet: &quot;$hobbies&quot; }
+    }
+  }
+])
+
+db.carts.aggregate([
+    {
+        $group: {
+            _id: null,
+            totalAmount: {
+                $sum: {
+                    $multiply: [&quot;$price&quot;, &quot;$quantity&quot;]
+                }
+            }
+        }
+    }
+])
+
+db.students.aggregate([
+    {
+        $bucket: {
+            groupBy: &quot;$score&quot;,
+            boundaries: [60, 80, 100],
+            default: &quot;Other&quot;,
+            output: {
+                students: { $push: &quot;$$ROOT&quot; }
+            }
+        }
+    }
+])
+
+
+
+
+
+*/
+</code></pre>
+        </section>
+
+        <section>
+            <h3>Mocked Expected JSON Output</h3>
+            <pre><code class="language-json">[
+  {
+    "_id": "exampleCategory",
+    "totalCount": 42,
+    "average": 100.5
+  }
+]</code></pre>
+        </section>
+    </article>

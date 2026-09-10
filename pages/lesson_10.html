@@ -1,0 +1,78 @@
+
+    <article>
+        <header>
+            <h2>Lesson: 10day</h2>
+            <p><strong>Core Concept:</strong> This section covers concepts demonstrated in <code>10day.js</code>.</p>
+        </header>
+
+        <section>
+            <h3>Explanation</h3>
+            <p>The code below illustrates various MongoDB concepts, commands, and queries. Pay attention to the comments within the code for specific details on what each operation accomplishes.</p>
+        </section>
+
+        <section>
+            <h3>Original JavaScript Code</h3>
+            <pre><code class="language-javascript">/*
+$addfields
+
+db.students.aggregate([
+  {
+    $addFields: {
+      full_name: {
+        $concat: [&quot;$name&quot;, &quot; &quot;, &quot;$surname&quot;]
+      }
+    }
+  }
+])
+
+$unwind
+db.orders.aggregate([
+  {
+    $unwind: {
+      path: &quot;$products&quot;,
+      preserveNullAndEmptyArrays: true
+    }
+  }
+])
+
+$group
+db.teachers.aggregate([
+  {
+    $group: {
+      _id: &quot;$gender&quot;,
+      names: {
+        $push: &quot;$name&quot;
+      },
+      data: { $push: &quot;$$ROOT&quot; },
+      totalNoOfData: { $sum: 1 },
+      maxAge: { $max: &quot;$age&quot; },
+      minAge: { $min: &quot;$age&quot; },
+      avgAge: { $avg: &quot;$age&quot; }
+    }
+  }
+])
+
+
+
+
+
+
+
+
+
+
+
+*/</code></pre>
+        </section>
+
+        <section>
+            <h3>Mocked Expected JSON Output</h3>
+            <pre><code class="language-json">[
+  {
+    "_id": "exampleCategory",
+    "totalCount": 42,
+    "average": 100.5
+  }
+]</code></pre>
+        </section>
+    </article>

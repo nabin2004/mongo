@@ -1,0 +1,52 @@
+
+    <article>
+        <header>
+            <h2>Lesson: 13day</h2>
+            <p><strong>Core Concept:</strong> This section covers concepts demonstrated in <code>13day.js</code>.</p>
+        </header>
+
+        <section>
+            <h3>Explanation</h3>
+            <p>The code below illustrates various MongoDB concepts, commands, and queries. Pay attention to the comments within the code for specific details on what each operation accomplishes.</p>
+        </section>
+
+        <section>
+            <h3>Original JavaScript Code</h3>
+            <pre><code class="language-javascript">/*
+Note:
+query time increases:
+if the number of document increases.
+if the size of document increases.
+
+Two types of scan:
+1. collscan scan: scan all documents in a collection.
+2. indexscan scan: scan all documents in a collection using index.
+
+1: Ascending order
+2: Descending order
+
+db.people.find({country: &quot;Nepal&quot;}).explain(&quot;executionStats&quot;)
+
+db.people.createIndex({country:1})
+
+db.users.find({Age: {$gt: 50}}).explain(&quot;executionStats&quot;)
+
+db.users.createIndex({Age:1})
+
+unique
+db.customers.createIndex({email:1}, {unique:true})
+
+db.customers.insertMany([{name:&quot;anup&quot;, age:22, email:&quot;anup@.com&quot;}])
+db.customers.createIndex({name:1,age:1}, {unique:true})
+
+*/</code></pre>
+        </section>
+
+        <section>
+            <h3>Mocked Expected JSON Output</h3>
+            <pre><code class="language-json">{
+  "acknowledged": true,
+  "insertedId": "60d5ec49f1b2c8b1f8e4e1a1"
+}</code></pre>
+        </section>
+    </article>

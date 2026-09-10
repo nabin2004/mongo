@@ -1,0 +1,161 @@
+
+    <article>
+        <header>
+            <h2>Lesson: 8day</h2>
+            <p><strong>Core Concept:</strong> This section covers concepts demonstrated in <code>8day.js</code>.</p>
+        </header>
+
+        <section>
+            <h3>Explanation</h3>
+            <p>The code below illustrates various MongoDB concepts, commands, and queries. Pay attention to the comments within the code for specific details on what each operation accomplishes.</p>
+        </section>
+
+        <section>
+            <h3>Original JavaScript Code</h3>
+            <pre><code class="language-javascript">/*
+db.createCollection(&quot;students&quot;, {
+  validator: {
+    $jsonSchema: {
+      bsonType: &quot;object&quot;,
+
+      required: [&quot;name&quot;, &quot;password&quot;, &quot;email&quot;, &quot;height&quot;, &quot;phonenumber&quot;, &quot;roll&quot;, &quot;isMarried&quot;, &quot;gender&quot;, &quot;dob&quot;, &quot;location&quot;, &quot;favTeacher&quot;, &quot;favSubject&quot;],
+
+      additionalProperties: false,
+
+      properties: {
+        name: {
+          bsonType: &quot;string&quot;,
+          description: &quot; name must be a string&quot;,
+            minLength: 3,
+            maxLength: 20,
+        },
+
+        password: {
+          bsonType: &quot;string&quot;,
+          description: &quot;password must be a string minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character&quot;,
+          pattern: &quot;^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&amp;])[A-Za-z\\d@$!%*?&amp;]{8,}$&quot;
+        },
+
+        email: {
+          bsonType: &quot;string&quot;,
+          description: &quot;email must be a string and must be a valid email address&quot;,
+          pattern: &quot;^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$&quot;
+        },
+
+        height: {
+          bsonType: &quot;number&quot;,
+          description: &quot;height must be a number&quot;
+        },
+
+        phonenumber: {
+          bsonType: &quot;string&quot;,
+          description: &quot;phone number must be a string and must be a valid phone number&quot;,
+            pattern: &quot;^[0-9]{10}$&quot;
+        },
+
+        roll: {
+          bsonType: &quot;number&quot;,
+          description: &quot;roll number must be a number&quot;
+        },
+
+        isMarried: {
+          bsonType: &quot;bool&quot;,
+          description: &quot;isMarried must be a boolean&quot;
+        },
+
+        gender: {
+          bsonType: &quot;string&quot;,
+          description: &quot;gender must be a string&quot;
+        },
+
+        dob: {
+          bsonType: &quot;date&quot;,
+          description: &quot;dob must be a date&quot;
+        },
+
+        location: {
+          bsonType: &quot;object&quot;,
+
+          required: [&quot;country&quot;, &quot;exactLocation&quot;],
+
+          additionalProperties: false,
+
+          properties: {
+            country: {
+              bsonType: &quot;string&quot;,
+              description: &quot;country must be a string&quot;
+            },
+
+            exactLocation: {
+              bsonType: &quot;string&quot;,
+              description: &quot;exactLocation must be a string&quot;
+            }
+          }
+        },
+
+        favTeacher: {
+          bsonType: &quot;array&quot;,
+          description: &quot;favTeacher must be an array&quot;,
+
+          items: {
+            bsonType: &quot;string&quot;,
+            description: &quot;each teacher must be a string&quot;
+          }
+        },
+
+        favSubject: {
+          bsonType: &quot;array&quot;,
+          description: &quot;Array of favorite subjects&quot;,
+
+          items: {
+            bsonType: &quot;object&quot;,
+
+            required: [&quot;bookName&quot;, &quot;bookAuthor&quot;],
+
+            additionalProperties: false,
+
+            properties: {
+              bookName: {
+                bsonType: &quot;string&quot;,
+                description: &quot;must be a string&quot;
+              },
+
+              bookAuthor: {
+                bsonType: &quot;string&quot;,
+                description: &quot;must be a string&quot;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+});
+
+
+db.students.insertMany([
+  {_id: 1, name: &quot;Ram&quot;},
+  {_id:2, name: &quot;sita&quot;},
+  {_id:1, name: &quot;hari&quot;},
+  {_id:3, name: &quot;gita&quot;},
+  {_id:4, name: &quot;shyam&quot;},
+  {_id:3, name: &quot;laxmi&quot;},
+],
+{ordered: true} // this will allow the insertion of other documents even if one document fails due to duplicate _id
+);
+
+
+
+
+
+*/</code></pre>
+        </section>
+
+        <section>
+            <h3>Mocked Expected JSON Output</h3>
+            <pre><code class="language-json">{
+  "acknowledged": true,
+  "insertedId": "60d5ec49f1b2c8b1f8e4e1a1"
+}</code></pre>
+        </section>
+    </article>

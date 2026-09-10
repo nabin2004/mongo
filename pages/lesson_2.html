@@ -1,0 +1,143 @@
+
+    <article>
+        <header>
+            <h2>Lesson: 2query</h2>
+            <p><strong>Core Concept:</strong> This section covers concepts demonstrated in <code>2query.js</code>.</p>
+        </header>
+
+        <section>
+            <h3>Explanation</h3>
+            <p>The code below illustrates various MongoDB concepts, commands, and queries. Pay attention to the comments within the code for specific details on what each operation accomplishes.</p>
+        </section>
+
+        <section>
+            <h3>Original JavaScript Code</h3>
+            <pre><code class="language-javascript">/*
+db.students.insertMany([
+{
+    name: &quot;nitan&quot;,
+    age: 32,
+    city: &quot;kathmandu&quot;,
+    isMarried: false,
+    salary: 50000,
+    hobbies: [&quot;coding&quot;, &quot;reading&quot;]
+},
+{
+    name: &quot;ram&quot;,
+    age: 25,
+    city: &quot;pokhara&quot;,
+    isMarried: true,
+    salary: 35000,
+    hobbies: [&quot;football&quot;, &quot;travel&quot;]
+},
+{
+    name: &quot;hari&quot;,
+    age: 18,
+    city: &quot;lalitpur&quot;,
+    isMarried: false,
+    salary: 20000
+},
+{
+    name: &quot;sita&quot;,
+    age: 29,
+    city: &quot;bhaktapur&quot;,
+    isMarried: true,
+    salary: 45000,
+    hobbies: [&quot;music&quot;]
+},
+{
+    name: &quot;gita&quot;,
+    age: 21,
+    city: &quot;kathmandu&quot;,
+    isMarried: false,
+    salary: 25000
+},
+{
+    name: &quot;john&quot;,
+    age: 35,
+    city: &quot;biratnagar&quot;,
+    isMarried: true,
+    salary: 70000,
+    hobbies: [&quot;gaming&quot;, &quot;travel&quot;]
+},
+{
+    name: &quot;alice&quot;,
+    age: 27,
+    city: &quot;pokhara&quot;,
+    isMarried: false,
+    salary: 40000
+},
+{
+    name: &quot;bob&quot;,
+    age: 15,
+    city: &quot;butwal&quot;,
+    isMarried: false,
+    salary: 10000
+},
+{
+    name: &quot;emma&quot;,
+    age: &quot;24&quot;,
+    city: &quot;dharan&quot;,
+    isMarried: false,
+    salary: 30000
+},
+{
+    name: &quot;david&quot;,
+    city: &quot;janakpur&quot;,
+    isMarried: true,
+    salary: 55000
+},
+{
+    name: &quot;sophia&quot;,
+    age: 42,
+    city: &quot;kathmandu&quot;,
+    salary: 90000
+},
+{
+    name: &quot;mohan&quot;,
+    age: 30,
+    city: &quot;pokhara&quot;,
+    isMarried: true,
+    salary: 60000
+}
+])
+
+
+comparison operator
+    general search
+        .find({})
+        .find({field: value})=&gt; db.students.find({city: &quot;kathmandu&quot;})
+        .find({name:&quot;nitan&quot;, age:32})
+
+comparison operatios=&gt;operator ko aghadi dollar sign lagauxau
+
+comparision operator
+    general search
+        .find({})
+        .find({name:&quot;nitan&quot;})
+        .find({name:&quot;nitan&quot;, age:32})
+    comparions operators
+        $eq,$ne,$gt,$gte,$lt,$lte,$in , $nin, $mod
+        .find({name:&quot;nitan&quot;})
+        .find({name:{$eq:&quot;nitan&quot;}})
+        .find({name:{$ne:&quot;nitan&quot;}})
+        .find({name:{$in:[&quot;nitan&quot;,&quot;ram&quot;]}})
+        .find({name:{$nin:[&quot;nitan&quot;,&quot;ram&quot;]}})
+        .find({age:{$gt:30}})
+        .find({age:{$gte:30}})
+        .find({age:{$lt:30}})
+        .find({age:{$lte:30}})
+        .find({age:{$gte:12,$lte:25}}) =&gt; range
+        .find({age: { $mod: [5, 0] }}) =&gt; mod with 5 is 0
+
+*/</code></pre>
+        </section>
+
+        <section>
+            <h3>Mocked Expected JSON Output</h3>
+            <pre><code class="language-json">{
+  "acknowledged": true,
+  "insertedId": "60d5ec49f1b2c8b1f8e4e1a1"
+}</code></pre>
+        </section>
+    </article>

@@ -1,0 +1,106 @@
+
+    <article>
+        <header>
+            <h2>Lesson: 4query</h2>
+            <p><strong>Core Concept:</strong> This section covers concepts demonstrated in <code>4query.js</code>.</p>
+        </header>
+
+        <section>
+            <h3>Explanation</h3>
+            <p>The code below illustrates various MongoDB concepts, commands, and queries. Pay attention to the comments within the code for specific details on what each operation accomplishes.</p>
+        </section>
+
+        <section>
+            <h3>Original JavaScript Code</h3>
+            <pre><code class="language-javascript">/*
+
+find({skills: &quot;html&quot;})
+find({skills: [&quot;html&quot;, &quot;css&quot;]})//exact match sequence also matter
+{skills:{$in:[&quot;html&quot;,&quot;css&quot;]}}//any one match
+{skills:{$nin:[&quot;html&quot;,&quot;css&quot;]}}//any one match not included any of them
+{skills:{$all:[&quot;html&quot;, &quot;css&quot;]}}//all match
+{&quot;address.city&quot;:&quot;kathmandu&quot;}//embedded document ko data read or extract garnu xa vane double quote use garna parxa
+{&quot;courses.course&quot;:&quot;mongodb&quot;, &quot;courses.marks&quot;:{$gte:70}} //double quote use garna parxa when embedded document ko data read or extract garnu xa vane
+
+*/
+
+// main topic today
+// searching embedded document
+// {courses:{$elemMatch:{course:&quot;mongodb&quot;, marks:{gte:70}}}}
+//db.students.find({}).count()
+//db.students.find({name:&quot;arjun&quot;}).count()
+
+
+//db.students.findOne({name:&quot;arjun&quot;}) // findOne() method will return only one document even if there are multiple documents with the same name
+
+// data = document vanxa
+// Array of object = embedded document vanxa
+
+
+db.students.insertMany([
+{
+  name: &quot;nitan&quot;,
+  age: 28,
+  skills: [&quot;html&quot;,&quot;css&quot;,&quot;javascript&quot;],
+  hobbies: [&quot;reading&quot;,&quot;music&quot;],
+  address: { city: &quot;kathmandu&quot;, country: &quot;nepal&quot; },
+  courses: [
+      {course: &quot;mongodb&quot;, duration: &quot;three&quot;, marks: 80},
+      {course: &quot;react&quot;, duration: &quot;two&quot;, marks: 60}
+  ]
+},
+{
+  name: &quot;ram&quot;,
+  age: 22,
+  skills: [&quot;html&quot;],
+  hobbies: [&quot;football&quot;,&quot;music&quot;],
+  address: { city: &quot;pokhara&quot;, country: &quot;nepal&quot; },
+  courses: [
+      {course: &quot;nodejs&quot;, duration: &quot;four&quot;, marks: 75}
+  ]
+},
+{
+  name: &quot;john&quot;,
+  age: 30,
+  skills: [&quot;python&quot;,&quot;mongodb&quot;],
+  hobbies: [&quot;reading&quot;,&quot;travel&quot;],
+  address: { city: &quot;delhi&quot;, country: &quot;india&quot; },
+  courses: [
+      {course: &quot;python&quot;, duration: &quot;four&quot;, marks: 90},
+      {course: &quot;mongodb&quot;, duration: &quot;two&quot;, marks: 65}
+  ]
+},
+{
+  name: &quot;hari&quot;,
+  age: 25,
+  skills: [&quot;css&quot;,&quot;javascript&quot;],
+  hobbies: [&quot;travel&quot;,&quot;music&quot;],
+  address: { city: &quot;bhaktapur&quot;, country: &quot;nepal&quot; },
+  courses: [
+      {course: &quot;react&quot;, duration: &quot;two&quot;, marks: 55}
+  ]
+},
+{
+  name: &quot;sita&quot;,
+  age: 27,
+  skills: [&quot;html&quot;,&quot;css&quot;],
+  hobbies: [&quot;reading&quot;],
+  address: { city: &quot;kathmandu&quot;, country: &quot;nepal&quot; },
+  courses: [
+      {course: &quot;mongodb&quot;, duration: &quot;two&quot;, marks: 85}
+  ]
+}
+])
+
+
+</code></pre>
+        </section>
+
+        <section>
+            <h3>Mocked Expected JSON Output</h3>
+            <pre><code class="language-json">{
+  "acknowledged": true,
+  "insertedId": "60d5ec49f1b2c8b1f8e4e1a1"
+}</code></pre>
+        </section>
+    </article>
