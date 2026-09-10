@@ -1,34 +1,46 @@
 
     <article>
         <header>
-            <h2>Lesson: 3logicalquery</h2>
-            <p><strong>Core Concept:</strong> This section covers concepts demonstrated in <code>3logicalquery.js</code>.</p>
+            <h2>Viva Prep: Logical Operators</h2>
+            <p><strong>Source File:</strong> <code>3logicalquery.js</code></p>
         </header>
 
-        <section>
-            <h3>Explanation</h3>
-            <p>The code below illustrates various MongoDB concepts, commands, and queries. Pay attention to the comments within the code for specific details on what each operation accomplishes.</p>
-        </section>
-
-        <section>
-            <h3>Original JavaScript Code</h3>
-            <pre><code class="language-javascript">/*
+        <section style="margin-top: 2rem;">
+            <h3>Raw Queries</h3>
+            <pre><code class="language-mongodb">/*
 
 {$or:[{city:&quot;kathmandu&quot;}, {isMarried:true}]}
 {age:{$exists:false}}
 {age:{$type:&quot;string&quot;}}
-*/
-</code></pre>
+*/</code></pre>
         </section>
+    <section style="margin-top: 2rem;"><h3>Deep Dive Concepts</h3>
+            <details style="margin-bottom: 1rem;" open>
+                <summary><strong>Logical $or and $exists</strong></summary>
+                <div style="padding-left: 1rem; border-left: 3px solid var(--primary); margin-top: 1rem;">
+                    <p><strong>The Plain-English Breakdown:</strong> $or evaluates an array of conditions and returns documents that match at least one. $exists checks if a field is present, regardless of its value.</p>
+                    <p><strong>Real-World Use Case:</strong> Finding users who either live in 'kathmandu' OR are married. Finding documents where an optional field was actually saved.</p>
+                    <p><strong>The "Gotcha" (Common Pitfalls):</strong> <mark>$or must be an array of objects. Also, $exists: false will return documents where the field doesn't exist, which is different from a field existing with a null value.</mark></p>
+                    <p><strong>Memorization Hook:</strong> <em>$or is an array of conditions. $exists is a boolean.</em></p>
+                </div>
+            </details>
+            </section>
+        <section style="margin-top: 2rem; background: var(--card-sectionning-background-color); padding: 1.5rem; border-radius: var(--border-radius);">
+            <h3>Examiner Q&A Simulator</h3>
+            <p><small>Click a question to reveal the answer.</small></p>
 
-        <section>
-            <h3>Mocked Expected JSON Output</h3>
-            <pre><code class="language-json">[
-  {
-    "_id": "60d5ec49f1b2c8b1f8e4e1a1",
-    "acknowledged": true,
-    "message": "Query executed successfully"
-  }
-]</code></pre>
-        </section>
+            <details style="margin-bottom: 0.5rem;">
+                <summary><strong>Examiner: What is the difference between $exists: true and checking for null?</strong></summary>
+                <div style="padding: 1rem; background: var(--background-color); margin-top: 0.5rem; border-radius: var(--border-radius);">
+                    A field can exist and have a value of null. $exists: true matches it, but checking {field: null} matches both null values and non-existent fields (in some driver contexts).
+                </div>
+            </details>
+
+            <details style="margin-bottom: 0.5rem;">
+                <summary><strong>Examiner: How do you structure an $or query?</strong></summary>
+                <div style="padding: 1rem; background: var(--background-color); margin-top: 0.5rem; border-radius: var(--border-radius);">
+                    It takes an array of query objects: { $or: [ {condition1}, {condition2} ] }
+                </div>
+            </details>
+            </section>
     </article>

@@ -1,18 +1,13 @@
 
     <article>
         <header>
-            <h2>Lesson: 12day</h2>
-            <p><strong>Core Concept:</strong> This section covers concepts demonstrated in <code>12day.js</code>.</p>
+            <h2>Viva Prep: Aggregation: $lookup (Joins)</h2>
+            <p><strong>Source File:</strong> <code>12day.js</code></p>
         </header>
 
-        <section>
-            <h3>Explanation</h3>
-            <p>The code below illustrates various MongoDB concepts, commands, and queries. Pay attention to the comments within the code for specific details on what each operation accomplishes.</p>
-        </section>
-
-        <section>
-            <h3>Original JavaScript Code</h3>
-            <pre><code class="language-javascript">/*
+        <section style="margin-top: 2rem;">
+            <h3>Raw Queries</h3>
+            <pre><code class="language-mongodb">/*
 $lookup means join
 join products table with orders table
 db.products.aggregate([
@@ -119,15 +114,26 @@ brand: {$addToSet:&quot;$brand&quot;}
 
 */</code></pre>
         </section>
+    <section style="margin-top: 2rem;"><h3>Deep Dive Concepts</h3>
+            <details style="margin-bottom: 1rem;" open>
+                <summary><strong>$lookup (Left Outer Join)</strong></summary>
+                <div style="padding-left: 1rem; border-left: 3px solid var(--primary); margin-top: 1rem;">
+                    <p><strong>The Plain-English Breakdown:</strong> Performs a join with another collection in the same database to filter in documents from the 'joined' collection.</p>
+                    <p><strong>Real-World Use Case:</strong> Fetching user details alongside their recent orders (joining 'orders' with 'users').</p>
+                    <p><strong>The "Gotcha" (Common Pitfalls):</strong> <mark>The result is ALWAYS an array (even if there's only one match). You usually need an $unwind stage right after a $lookup.</mark></p>
+                    <p><strong>Memorization Hook:</strong> <em>$lookup = SQL JOIN.</em></p>
+                </div>
+            </details>
+            </section>
+        <section style="margin-top: 2rem; background: var(--card-sectionning-background-color); padding: 1.5rem; border-radius: var(--border-radius);">
+            <h3>Examiner Q&A Simulator</h3>
+            <p><small>Click a question to reveal the answer.</small></p>
 
-        <section>
-            <h3>Mocked Expected JSON Output</h3>
-            <pre><code class="language-json">[
-  {
-    "_id": "exampleCategory",
-    "totalCount": 42,
-    "average": 100.5
-  }
-]</code></pre>
-        </section>
+            <details style="margin-bottom: 0.5rem;">
+                <summary><strong>Examiner: What data type does the 'as' field in a $lookup produce?</strong></summary>
+                <div style="padding: 1rem; background: var(--background-color); margin-top: 0.5rem; border-radius: var(--border-radius);">
+                    It produces an array containing all matching documents from the foreign collection.
+                </div>
+            </details>
+            </section>
     </article>

@@ -1,43 +1,14 @@
 
     <article>
         <header>
-            <h2>Lesson: 4query</h2>
-            <p><strong>Core Concept:</strong> This section covers concepts demonstrated in <code>4query.js</code>.</p>
+            <h2>Viva Prep: Array & Embedded Document Queries</h2>
+            <p><strong>Source File:</strong> <code>4query.js</code></p>
         </header>
 
-        <section>
-            <h3>Explanation</h3>
-            <p>The code below illustrates various MongoDB concepts, commands, and queries. Pay attention to the comments within the code for specific details on what each operation accomplishes.</p>
-        </section>
-
-        <section>
-            <h3>Original JavaScript Code</h3>
-            <pre><code class="language-javascript">/*
-
-find({skills: &quot;html&quot;})
-find({skills: [&quot;html&quot;, &quot;css&quot;]})//exact match sequence also matter
-{skills:{$in:[&quot;html&quot;,&quot;css&quot;]}}//any one match
-{skills:{$nin:[&quot;html&quot;,&quot;css&quot;]}}//any one match not included any of them
-{skills:{$all:[&quot;html&quot;, &quot;css&quot;]}}//all match
-{&quot;address.city&quot;:&quot;kathmandu&quot;}//embedded document ko data read or extract garnu xa vane double quote use garna parxa
-{&quot;courses.course&quot;:&quot;mongodb&quot;, &quot;courses.marks&quot;:{$gte:70}} //double quote use garna parxa when embedded document ko data read or extract garnu xa vane
-
-*/
-
-// main topic today
-// searching embedded document
-// {courses:{$elemMatch:{course:&quot;mongodb&quot;, marks:{gte:70}}}}
-//db.students.find({}).count()
-//db.students.find({name:&quot;arjun&quot;}).count()
-
-
-//db.students.findOne({name:&quot;arjun&quot;}) // findOne() method will return only one document even if there are multiple documents with the same name
-
-// data = document vanxa
-// Array of object = embedded document vanxa
-
-
-db.students.insertMany([
+        <section style="margin-top: 2rem;">
+            <h3>Dataset Context</h3>
+            <p>The queries below run against this collection structure:</p>
+            <pre><code class="language-json">db.students.insertMany([
 {
   name: &quot;nitan&quot;,
   age: 28,
@@ -90,17 +61,79 @@ db.students.insertMany([
       {course: &quot;mongodb&quot;, duration: &quot;two&quot;, marks: 85}
   ]
 }
-])
-
-
-</code></pre>
+])</code></pre>
         </section>
 
-        <section>
-            <h3>Mocked Expected JSON Output</h3>
-            <pre><code class="language-json">{
-  "acknowledged": true,
-  "insertedId": "60d5ec49f1b2c8b1f8e4e1a1"
-}</code></pre>
+        <section style="margin-top: 2rem;">
+            <h3>Raw Queries</h3>
+            <pre><code class="language-mongodb">/*
+
+find({skills: &quot;html&quot;})
+find({skills: [&quot;html&quot;, &quot;css&quot;]})//exact match sequence also matter
+{skills:{$in:[&quot;html&quot;,&quot;css&quot;]}}//any one match
+{skills:{$nin:[&quot;html&quot;,&quot;css&quot;]}}//any one match not included any of them
+{skills:{$all:[&quot;html&quot;, &quot;css&quot;]}}//all match
+{&quot;address.city&quot;:&quot;kathmandu&quot;}//embedded document ko data read or extract garnu xa vane double quote use garna parxa
+{&quot;courses.course&quot;:&quot;mongodb&quot;, &quot;courses.marks&quot;:{$gte:70}} //double quote use garna parxa when embedded document ko data read or extract garnu xa vane
+
+*/
+
+// main topic today
+// searching embedded document
+// {courses:{$elemMatch:{course:&quot;mongodb&quot;, marks:{gte:70}}}}
+//db.students.find({}).count()
+//db.students.find({name:&quot;arjun&quot;}).count()
+
+
+//db.students.findOne({name:&quot;arjun&quot;}) // findOne() method will return only one document even if there are multiple documents with the same name
+
+// data = document vanxa
+// Array of object = embedded document vanxa</code></pre>
         </section>
+    <section style="margin-top: 2rem;"><h3>Deep Dive Concepts</h3>
+            <details style="margin-bottom: 1rem;" open>
+                <summary><strong>Array Operators ($all, exact match)</strong></summary>
+                <div style="padding-left: 1rem; border-left: 3px solid var(--primary); margin-top: 1rem;">
+                    <p><strong>The Plain-English Breakdown:</strong> Exact array matching requires the exact elements in the exact order. $all matches if all specified elements exist in the array, regardless of order or other elements.</p>
+                    <p><strong>Real-World Use Case:</strong> Finding a candidate who has both 'html' and 'css' skills, regardless of what else they know ($all).</p>
+                    <p><strong>The "Gotcha" (Common Pitfalls):</strong> <mark>find({skills: ['html', 'css']}) strictly matches ONLY those two skills in that exact order. Always use $all for subsets.</mark></p>
+                    <p><strong>Memorization Hook:</strong> <em>$all is unordered inclusion. Exact array is strict sequence.</em></p>
+                </div>
+            </details>
+
+            <details style="margin-bottom: 1rem;" open>
+                <summary><strong>Dot Notation and $elemMatch</strong></summary>
+                <div style="padding-left: 1rem; border-left: 3px solid var(--primary); margin-top: 1rem;">
+                    <p><strong>The Plain-English Breakdown:</strong> Dot notation accesses nested fields. $elemMatch ensures that multiple conditions match the SAME element within an array of objects.</p>
+                    <p><strong>Real-World Use Case:</strong> Finding a student who scored >70 specifically in the 'mongodb' course.</p>
+                    <p><strong>The "Gotcha" (Common Pitfalls):</strong> <mark>Dot notation strings MUST be in quotes (e.g., 'address.city'). If you use multiple dot notations for an array, they might match different objects in the array. $elemMatch fixes this.</mark></p>
+                    <p><strong>Memorization Hook:</strong> <em>Quotes for dots ('a.b'). $elemMatch for SAME array object.</em></p>
+                </div>
+            </details>
+            </section>
+        <section style="margin-top: 2rem; background: var(--card-sectionning-background-color); padding: 1.5rem; border-radius: var(--border-radius);">
+            <h3>Examiner Q&A Simulator</h3>
+            <p><small>Click a question to reveal the answer.</small></p>
+
+            <details style="margin-bottom: 0.5rem;">
+                <summary><strong>Examiner: Why must you use quotes when querying embedded documents with dot notation?</strong></summary>
+                <div style="padding: 1rem; background: var(--background-color); margin-top: 0.5rem; border-radius: var(--border-radius);">
+                    Because JavaScript object syntax doesn't allow dots in unquoted keys. 'address.city' must be a string key.
+                </div>
+            </details>
+
+            <details style="margin-bottom: 0.5rem;">
+                <summary><strong>Examiner: When is $elemMatch strictly necessary over dot notation?</strong></summary>
+                <div style="padding: 1rem; background: var(--background-color); margin-top: 0.5rem; border-radius: var(--border-radius);">
+                    When you have an array of objects and you need multiple conditions to be satisfied by the *same* object in that array.
+                </div>
+            </details>
+
+            <details style="margin-bottom: 0.5rem;">
+                <summary><strong>Examiner: What happens if you use findOne() but 10 documents match?</strong></summary>
+                <div style="padding: 1rem; background: var(--background-color); margin-top: 0.5rem; border-radius: var(--border-radius);">
+                    MongoDB stops scanning and returns only the first document it encounters that matches the criteria, based on the natural order or index.
+                </div>
+            </details>
+            </section>
     </article>

@@ -1,20 +1,14 @@
 
     <article>
         <header>
-            <h2>Lesson: 11day</h2>
-            <p><strong>Core Concept:</strong> This section covers concepts demonstrated in <code>11day.js</code>.</p>
+            <h2>Viva Prep: Aggregation: Buckets & Sets</h2>
+            <p><strong>Source File:</strong> <code>11day.js</code></p>
         </header>
 
-        <section>
-            <h3>Explanation</h3>
-            <p>The code below illustrates various MongoDB concepts, commands, and queries. Pay attention to the comments within the code for specific details on what each operation accomplishes.</p>
-        </section>
-
-        <section>
-            <h3>Original JavaScript Code</h3>
-            <pre><code class="language-javascript">/*
-
-db.persons.insertMany([
+        <section style="margin-top: 2rem;">
+            <h3>Dataset Context</h3>
+            <p>The queries below run against this collection structure:</p>
+            <pre><code class="language-json">db.persons.insertMany([
   {
     name: &quot;A&quot;,
     hobbies: [&quot;dancing&quot;, &quot;cooking&quot;],
@@ -23,7 +17,14 @@ db.persons.insertMany([
     name: &quot;B&quot;,
     hobbies: [&quot;dancing&quot;, &quot;singing&quot;, &quot;music&quot;],
   },
-]);
+]);</code></pre>
+        </section>
+
+        <section style="margin-top: 2rem;">
+            <h3>Raw Queries</h3>
+            <pre><code class="language-mongodb">/*
+
+
 
 use group and unwind
 db.persons.aggregate([
@@ -65,18 +66,28 @@ db.students.aggregate([
 
 
 
-*/
-</code></pre>
+*/</code></pre>
         </section>
+    <section style="margin-top: 2rem;"><h3>Deep Dive Concepts</h3>
+            <details style="margin-bottom: 1rem;" open>
+                <summary><strong>$bucket and Accumulators</strong></summary>
+                <div style="padding-left: 1rem; border-left: 3px solid var(--primary); margin-top: 1rem;">
+                    <p><strong>The Plain-English Breakdown:</strong> $bucket categorizes incoming documents into groups, called buckets, based on specified boundaries.</p>
+                    <p><strong>Real-World Use Case:</strong> Creating histograms, like grouping students by score ranges (60-80, 80-100).</p>
+                    <p><strong>The "Gotcha" (Common Pitfalls):</strong> <mark>Boundaries must be sorted. The bucket includes the lower bound and excludes the upper bound. You must provide a 'default' bucket for outliers.</mark></p>
+                    <p><strong>Memorization Hook:</strong> <em>$bucket = Histogram grouping.</em></p>
+                </div>
+            </details>
+            </section>
+        <section style="margin-top: 2rem; background: var(--card-sectionning-background-color); padding: 1.5rem; border-radius: var(--border-radius);">
+            <h3>Examiner Q&A Simulator</h3>
+            <p><small>Click a question to reveal the answer.</small></p>
 
-        <section>
-            <h3>Mocked Expected JSON Output</h3>
-            <pre><code class="language-json">[
-  {
-    "_id": "exampleCategory",
-    "totalCount": 42,
-    "average": 100.5
-  }
-]</code></pre>
-        </section>
+            <details style="margin-bottom: 0.5rem;">
+                <summary><strong>Examiner: What happens if a document's value falls outside your $bucket boundaries?</strong></summary>
+                <div style="padding: 1rem; background: var(--background-color); margin-top: 0.5rem; border-radius: var(--border-radius);">
+                    It goes into the bucket specified by the 'default' parameter. If no default is provided, it throws an error.
+                </div>
+            </details>
+            </section>
     </article>

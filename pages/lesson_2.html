@@ -1,19 +1,14 @@
 
     <article>
         <header>
-            <h2>Lesson: 2query</h2>
-            <p><strong>Core Concept:</strong> This section covers concepts demonstrated in <code>2query.js</code>.</p>
+            <h2>Viva Prep: Comparison Operators</h2>
+            <p><strong>Source File:</strong> <code>2query.js</code></p>
         </header>
 
-        <section>
-            <h3>Explanation</h3>
-            <p>The code below illustrates various MongoDB concepts, commands, and queries. Pay attention to the comments within the code for specific details on what each operation accomplishes.</p>
-        </section>
-
-        <section>
-            <h3>Original JavaScript Code</h3>
-            <pre><code class="language-javascript">/*
-db.students.insertMany([
+        <section style="margin-top: 2rem;">
+            <h3>Dataset Context</h3>
+            <p>The queries below run against this collection structure:</p>
+            <pre><code class="language-json">db.students.insertMany([
 {
     name: &quot;nitan&quot;,
     age: 32,
@@ -100,7 +95,13 @@ db.students.insertMany([
     isMarried: true,
     salary: 60000
 }
-])
+])</code></pre>
+        </section>
+
+        <section style="margin-top: 2rem;">
+            <h3>Raw Queries</h3>
+            <pre><code class="language-mongodb">/*
+
 
 
 comparison operator
@@ -132,12 +133,33 @@ comparision operator
 
 */</code></pre>
         </section>
+    <section style="margin-top: 2rem;"><h3>Deep Dive Concepts</h3>
+            <details style="margin-bottom: 1rem;" open>
+                <summary><strong>Comparison Operators ($gt, $lt, $in, $ne)</strong></summary>
+                <div style="padding-left: 1rem; border-left: 3px solid var(--primary); margin-top: 1rem;">
+                    <p><strong>The Plain-English Breakdown:</strong> These operators allow filtering documents based on specific value comparisons rather than exact matches. $in matches any value in an array.</p>
+                    <p><strong>Real-World Use Case:</strong> Finding users over a certain age ($gte: 18) or products within a price range.</p>
+                    <p><strong>The "Gotcha" (Common Pitfalls):</strong> <mark>$in takes an array of values. Forgetting the brackets (e.g., $in: 'nitan') will result in an error or unexpected behavior.</mark></p>
+                    <p><strong>Memorization Hook:</strong> <em>Prefix with $ for operators: $gt (greater than), $lt (less than), $ne (not equal).</em></p>
+                </div>
+            </details>
+            </section>
+        <section style="margin-top: 2rem; background: var(--card-sectionning-background-color); padding: 1.5rem; border-radius: var(--border-radius);">
+            <h3>Examiner Q&A Simulator</h3>
+            <p><small>Click a question to reveal the answer.</small></p>
 
-        <section>
-            <h3>Mocked Expected JSON Output</h3>
-            <pre><code class="language-json">{
-  "acknowledged": true,
-  "insertedId": "60d5ec49f1b2c8b1f8e4e1a1"
-}</code></pre>
-        </section>
+            <details style="margin-bottom: 0.5rem;">
+                <summary><strong>Examiner: How would you find students whose age is exactly 25 or 30?</strong></summary>
+                <div style="padding: 1rem; background: var(--background-color); margin-top: 0.5rem; border-radius: var(--border-radius);">
+                    Use the $in operator: { age: { $in: [25, 30] } }
+                </div>
+            </details>
+
+            <details style="margin-bottom: 0.5rem;">
+                <summary><strong>Examiner: Can you use multiple comparison operators on the same field?</strong></summary>
+                <div style="padding: 1rem; background: var(--background-color); margin-top: 0.5rem; border-radius: var(--border-radius);">
+                    Yes, for example { age: { $gte: 18, $lte: 30 } } finds ages between 18 and 30 inclusive.
+                </div>
+            </details>
+            </section>
     </article>
