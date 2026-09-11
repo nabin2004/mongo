@@ -241,12 +241,12 @@ viva_content = {
 
 slides_data = [
     {
-        "id": "crud-survival-guide",
+        "id": "crud-playbook",
         "deck_number": 1,
         "icon": "⚡",
         "category": "CRUD & Core",
         "filename": "MongoDB_CRUD_Survival_Guide.pdf",
-        "title": "MongoDB CRUD Survival Guide",
+        "title": "MongoDB CRUD Playbook",
         "description": "Essential foundational playbook for database creation, collections, document insertion, and robust query patterns.",
         "topics": ["insertOne / insertMany", "find() queries", "updateOne / updateMany", "delete filters", "Cursor methods"],
         "highlights": [
