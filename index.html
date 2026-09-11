@@ -80,7 +80,7 @@
         </p>
         <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
             <a href="lesson1/" role="button">Start Lesson 1: Basic Structure &amp; CRUD &rarr;</a>
-            <a href="slides/" role="button" class="secondary outline">Open In-Webpage Slides Viewer</a>
+            <a href="slides/" role="button" class="secondary outline">Browse All 8 Slide Decks</a>
         </div>
         <div class="hero-stats-row">
             <div class="stat-item">
@@ -108,11 +108,11 @@
                 <h3 style="margin: 0;">Featured Study Slides &amp; Playbooks</h3>
                 <p style="margin: 0.25rem 0 0 0; font-size: 0.88rem; color: var(--muted-color);">Visual summaries and architectural cheat sheets for fast reference.</p>
             </div>
-            <a href="slides/" style="font-size: 0.9rem; font-weight: 600;">View All 8 Slides with In-Page Viewer &rarr;</a>
+            <a href="slides/" style="font-size: 0.9rem; font-weight: 600;">View All 8 Slide Decks &rarr;</a>
         </div>
         <div class="slides-catalog-grid">
             
-    <div class="slide-deck-card">
+    <div class="slide-deck-card" onclick="window.open('slides/MongoDB_CRUD_Survival_Guide.pdf', '_blank')">
         <div>
             <div class="card-top-header">
                 <div class="card-title-combo">
@@ -124,18 +124,17 @@
                 </div>
                 <span class="nav-badge" style="margin: 0;">10.6 MB</span>
             </div>
-            <p class="description" style="margin-top: 0.5rem;">Essential foundational playbook for database creation, collections, document insertion, and robust query patterns.</p>
+            <p class="card-description" style="margin-top: 0.5rem;">Essential foundational playbook for database creation, collections, document insertion, and robust query patterns.</p>
         </div>
         <div class="slide-card-footer">
-            <span class="size-tag">⚡ Presentation</span>
+            <span class="size-tag">⚡ Presentation (10.6 MB)</span>
             <div class="slide-card-actions">
-                <a href="slides/?deck=MongoDB_CRUD_Survival_Guide.pdf" role="button">👁️ View</a>
-                <a href="slides/MongoDB_CRUD_Survival_Guide.pdf" target="_blank" role="button" class="secondary outline">↗️ PDF</a>
+                <a href="slides/MongoDB_CRUD_Survival_Guide.pdf" target="_blank" role="button" onclick="event.stopPropagation()">↗ Open Slide Deck</a>
             </div>
         </div>
     </div>
     
-    <div class="slide-deck-card">
+    <div class="slide-deck-card" onclick="window.open('slides/MongoDB_Operator_Playbook.pdf', '_blank')">
         <div>
             <div class="card-top-header">
                 <div class="card-title-combo">
@@ -147,18 +146,17 @@
                 </div>
                 <span class="nav-badge" style="margin: 0;">10.9 MB</span>
             </div>
-            <p class="description" style="margin-top: 0.5rem;">Comprehensive reference guide to comparison, logical, and element query operators for high-precision filtering.</p>
+            <p class="card-description" style="margin-top: 0.5rem;">Comprehensive reference guide to comparison, logical, and element query operators for high-precision filtering.</p>
         </div>
         <div class="slide-card-footer">
-            <span class="size-tag">🔍 Presentation</span>
+            <span class="size-tag">🔍 Presentation (10.9 MB)</span>
             <div class="slide-card-actions">
-                <a href="slides/?deck=MongoDB_Operator_Playbook.pdf" role="button">👁️ View</a>
-                <a href="slides/MongoDB_Operator_Playbook.pdf" target="_blank" role="button" class="secondary outline">↗️ PDF</a>
+                <a href="slides/MongoDB_Operator_Playbook.pdf" target="_blank" role="button" onclick="event.stopPropagation()">↗ Open Slide Deck</a>
             </div>
         </div>
     </div>
     
-    <div class="slide-deck-card">
+    <div class="slide-deck-card" onclick="window.open('slides/MongoDB_Array_Query_Playbook.pdf', '_blank')">
         <div>
             <div class="card-top-header">
                 <div class="card-title-combo">
@@ -170,18 +168,17 @@
                 </div>
                 <span class="nav-badge" style="margin: 0;">14.9 MB</span>
             </div>
-            <p class="description" style="margin-top: 0.5rem;">Mastering nested arrays, multidimensional objects, subdocuments, and targeted document querying in MongoDB.</p>
+            <p class="card-description" style="margin-top: 0.5rem;">Mastering nested arrays, multidimensional objects, subdocuments, and targeted document querying in MongoDB.</p>
         </div>
         <div class="slide-card-footer">
-            <span class="size-tag">🧩 Presentation</span>
+            <span class="size-tag">🧩 Presentation (14.9 MB)</span>
             <div class="slide-card-actions">
-                <a href="slides/?deck=MongoDB_Array_Query_Playbook.pdf" role="button">👁️ View</a>
-                <a href="slides/MongoDB_Array_Query_Playbook.pdf" target="_blank" role="button" class="secondary outline">↗️ PDF</a>
+                <a href="slides/MongoDB_Array_Query_Playbook.pdf" target="_blank" role="button" onclick="event.stopPropagation()">↗ Open Slide Deck</a>
             </div>
         </div>
     </div>
     
-    <div class="slide-deck-card">
+    <div class="slide-deck-card" onclick="window.open('slides/MongoDB_Update_Operator_Dossier.pdf', '_blank')">
         <div>
             <div class="card-top-header">
                 <div class="card-title-combo">
@@ -193,13 +190,12 @@
                 </div>
                 <span class="nav-badge" style="margin: 0;">8.9 MB</span>
             </div>
-            <p class="description" style="margin-top: 0.5rem;">Field modifications, array mutations, upserts, and atomic state transitions without data corruption.</p>
+            <p class="card-description" style="margin-top: 0.5rem;">Field modifications, array mutations, upserts, and atomic state transitions without data corruption.</p>
         </div>
         <div class="slide-card-footer">
-            <span class="size-tag">🔄 Presentation</span>
+            <span class="size-tag">🔄 Presentation (8.9 MB)</span>
             <div class="slide-card-actions">
-                <a href="slides/?deck=MongoDB_Update_Operator_Dossier.pdf" role="button">👁️ View</a>
-                <a href="slides/MongoDB_Update_Operator_Dossier.pdf" target="_blank" role="button" class="secondary outline">↗️ PDF</a>
+                <a href="slides/MongoDB_Update_Operator_Dossier.pdf" target="_blank" role="button" onclick="event.stopPropagation()">↗ Open Slide Deck</a>
             </div>
         </div>
     </div>
@@ -219,7 +215,7 @@
             <p>
                 <strong>Quick Links:</strong>
                 <ul>
-                    <li><a href="slides/">In-Webpage Study Slides &amp; Playbooks Viewer</a></li>
+                    <li><a href="slides/">Study Slides &amp; Playbooks Hub</a></li>
                     <li><a href="https://www.mongodb.com/docs/manual/" target="_blank" rel="noopener">Official MongoDB Documentation</a></li>
                     <li><a href="https://www.mongodb.com/docs/drivers/node/current/" target="_blank" rel="noopener">MongoDB Node.js Driver Guide</a></li>
                 </ul>

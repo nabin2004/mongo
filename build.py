@@ -116,7 +116,7 @@ def generate_html_wrapper(title, content_html, active_lesson_num=None, is_root=F
             <p>
                 <strong>Quick Links:</strong>
                 <ul>
-                    <li><a href="{slides_path}">In-Webpage Study Slides &amp; Playbooks Viewer</a></li>
+                    <li><a href="{slides_path}">Study Slides &amp; Playbooks Hub</a></li>
                     <li><a href="https://www.mongodb.com/docs/manual/" target="_blank" rel="noopener">Official MongoDB Documentation</a></li>
                     <li><a href="https://www.mongodb.com/docs/drivers/node/current/" target="_blank" rel="noopener">MongoDB Node.js Driver Guide</a></li>
                 </ul>
@@ -231,8 +231,8 @@ for f in files:
                 </div>
             </div>
             <div class="banner-actions">
-                <a href="../slides/?deck={slide['filename']}" role="button">👁️ View in Webpage</a>
-                <a href="../slides/{slide['filename']}" target="_blank" role="button" class="secondary outline">↗️ Open PDF</a>
+                <a href="../slides/{slide['filename']}" target="_blank" role="button">↗ Open Slide Deck</a>
+                <a href="../slides/" role="button" class="secondary outline">All Decks</a>
             </div>
         </div>
             """
@@ -327,13 +327,10 @@ for f in files:
     with open(f"{dir_name}/index.html", 'w', encoding='utf-8') as out_file:
         out_file.write(full_html)
 
-# Generate slides/index.html (Interactive Slides Viewer & Catalog Hub)
+# Generate slides/index.html (Clean Slides Hub & Catalog)
 slides_dir = "slides"
 os.makedirs(slides_dir, exist_ok=True)
 
-default_slide = slides_data[0]
-select_options_html = ""
-pill_tabs_html = ""
 catalog_cards_html = ""
 
 # Compute categories
@@ -350,17 +347,10 @@ for cat in categories:
     category_tabs_html += f'<button type="button" class="category-tab{is_active}" data-cat="{html.escape(cat)}" onclick="filterByCategory(\'{html.escape(cat)}\')">{cat} ({count})</button>\n'
 
 for i, s in enumerate(slides_data):
-    is_first = (i == 0)
-    selected_attr = " selected" if is_first else ""
-    active_class = " active" if is_first else ""
-    active_card_class = " is-active-deck" if is_first else ""
     icon = s.get("icon", "📑")
     cat = s.get("category", "General")
     deck_no = s.get("deck_number", i + 1)
     
-    select_options_html += f'<option value="{s["filename"]}"{selected_attr}>{icon} Deck #{deck_no}: {s["title"]} ({s["size"]})</option>\n'
-    pill_tabs_html += f'<button class="deck-pill-btn{active_class}" data-filename="{s["filename"]}" data-cat="{html.escape(cat)}" data-title="{html.escape(s["title"])}" onclick="switchSlideDeck(\'{s["filename"]}\')"><span>{icon}</span> <span>{s["title"]}</span></button>\n'
-
     # Chips for topics
     chips_html = "".join([f'<span class="topic-chip">{html.escape(t)}</span>' for t in s["topics"]])
 
@@ -373,18 +363,18 @@ for i, s in enumerate(slides_data):
     # Related lessons links
     related_html = ""
     if s.get("related_lessons"):
-        lesson_links = [f'<a href="../lesson{rl["num"]}/">Lesson {rl["num"]}</a>' for rl in s["related_lessons"]]
-        related_html = f'<p style="font-size: 0.8rem; margin: 0.4rem 0 0.8rem 0; color: var(--muted-color);"><strong>Related:</strong> {" · ".join(lesson_links)}</p>'
+        lesson_links = [f'<a href="../lesson{rl["num"]}/" onclick="event.stopPropagation()">Lesson {rl["num"]}</a>' for rl in s["related_lessons"]]
+        related_html = f'<div class="card-related-lessons"><strong>Related Lessons:</strong> {" · ".join(lesson_links)}</div>'
 
     catalog_cards_html += f"""
-    <div class="slide-deck-card{active_card_class}" id="card-{s['id']}" data-filename="{s['filename']}" data-cat="{html.escape(cat)}">
+    <div class="slide-deck-card" id="card-{s['id']}" data-cat="{html.escape(cat)}" onclick="window.open('{s['filename']}', '_blank')">
         <div>
             <div class="card-top-header">
                 <div class="card-title-combo">
                     <span class="card-icon">{icon}</span>
                     <div>
                         <h4>{html.escape(s['title'])}</h4>
-                        <div style="display: flex; gap: 0.4rem; align-items: center; margin-top: 0.2rem;">
+                        <div style="display: flex; gap: 0.4rem; align-items: center; margin-top: 0.25rem;">
                             <span class="badge-tag">Deck #{deck_no}</span>
                             <span class="badge-tag badge-blue">{cat}</span>
                         </div>
@@ -392,7 +382,7 @@ for i, s in enumerate(slides_data):
                 </div>
                 <span class="nav-badge" style="margin: 0; white-space: nowrap;">{s['size']}</span>
             </div>
-            <p class="description" style="margin-top: 0.6rem;">{html.escape(s['description'])}</p>
+            <p class="card-description">{html.escape(s['description'])}</p>
             {highlights_html}
             <div class="slide-topics-list">
                 {chips_html}
@@ -400,34 +390,24 @@ for i, s in enumerate(slides_data):
             {related_html}
         </div>
         <div class="slide-card-footer">
-            <span class="size-tag">{icon} Presentation</span>
+            <span class="size-tag">{icon} Presentation ({s['size']})</span>
             <div class="slide-card-actions">
-                <button type="button" onclick="switchSlideDeck('{s['filename']}'); document.getElementById('viewer-section').scrollIntoView({{behavior: 'smooth'}});">👁️ Load</button>
-                <a href="{s['filename']}" target="_blank" role="button" class="secondary outline">↗️ Tab</a>
-                <a href="{s['filename']}" download role="button" class="contrast outline">⬇️</a>
+                <a href="{s['filename']}" target="_blank" role="button" onclick="event.stopPropagation()">↗ Open Slide Deck</a>
+                <a href="{s['filename']}" download role="button" class="secondary outline" onclick="event.stopPropagation()" title="Download PDF">⬇ Download</a>
             </div>
         </div>
     </div>
     """
 
-# Prepare default slide metadata
-default_icon = default_slide.get("icon", "⚡")
-default_cat = default_slide.get("category", "CRUD & Core")
-default_chips = "".join([f'<span class="topic-chip">{html.escape(t)}</span>' for t in default_slide["topics"]])
-default_lessons = ""
-if default_slide.get("related_lessons"):
-    links = [f'<a href="../lesson{rl["num"]}/">Lesson {rl["num"]} ({rl["title"]})</a>' for rl in default_slide["related_lessons"]]
-    default_lessons = f'<span>Related Lessons: {" · ".join(links)}</span>'
-
 slides_content_html = f"""
 <article>
-    <header style="margin-bottom: 1.5rem;">
+    <header style="margin-bottom: 2rem;">
         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
             <span class="nav-badge">8 Playbook Decks</span>
-            <span style="font-size: 0.82rem; color: var(--muted-color);">Interactive In-Webpage Viewer</span>
+            <span style="font-size: 0.82rem; color: var(--muted-color);">Full-Screen Browser Presentations</span>
         </div>
         <h2>Study Slides &amp; Visual Playbooks</h2>
-        <p>Interactive full-screen capable viewer for MongoDB presentation decks. Filter by category, step through decks, view directly in-page, or download for offline revision.</p>
+        <p>Curated revision slide decks and visual cheat sheets. Click on any card below to open the complete presentation in a new tab, or download for offline revision.</p>
     </header>
 
     <!-- Category Filter Tabs -->
@@ -435,69 +415,11 @@ slides_content_html = f"""
         {category_tabs_html}
     </div>
 
-    <section id="viewer-section">
-        <div class="pdf-viewer-card" id="viewer-container">
-            <!-- Top Control Bar -->
-            <div class="pdf-viewer-header">
-                <div class="pdf-viewer-title-group">
-                    <span class="deck-icon-badge" id="current-deck-icon">{default_icon}</span>
-                    <div class="pdf-viewer-title-text">
-                        <h3 id="current-slide-title">{html.escape(default_slide['title'])}</h3>
-                        <div class="deck-meta-subtitle">
-                            <span class="badge-tag" id="current-deck-category">{default_cat}</span>
-                            <span class="badge-tag badge-blue" id="current-deck-number">Deck 1 of 8</span>
-                            <span id="current-deck-size">{default_slide['size']}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="pdf-viewer-controls">
-                    <button type="button" class="secondary outline" id="prev-deck-btn" onclick="navPrevDeck()" title="Previous Slide Deck">← Prev</button>
-                    <button type="button" class="secondary outline" id="next-deck-btn" onclick="navNextDeck()" title="Next Slide Deck">Next →</button>
-                    <select id="slide-selector" class="pdf-select-dropdown" onchange="switchSlideDeck(this.value)">
-                        {select_options_html}
-                    </select>
-                    <button id="height-toggle-btn" type="button" class="secondary outline" onclick="cycleViewerHeight()" title="Toggle Viewer Height">↕ Height</button>
-                    <button id="fullscreen-btn" type="button" class="secondary outline" onclick="toggleFullscreen()" title="Fullscreen Mode">⛶ Fullscreen</button>
-                    <a id="open-new-tab-btn" href="{default_slide['filename']}" target="_blank" role="button" class="secondary outline">↗️ New Tab</a>
-                    <a id="download-btn" href="{default_slide['filename']}" download role="button" class="contrast outline">⬇️ Download</a>
-                </div>
-            </div>
-
-            <!-- In-Card Meta Subbanner -->
-            <div class="viewer-info-subbanner">
-                <p id="current-deck-description">{html.escape(default_slide['description'])}</p>
-                <div class="viewer-topics-bar" id="current-deck-topics">
-                    <strong>Key Topics:</strong>
-                    {default_chips}
-                </div>
-                <div class="viewer-related-lessons" id="current-deck-lessons">
-                    {default_lessons}
-                </div>
-            </div>
-
-            <!-- Quick Switcher Strip -->
-            <div class="deck-switcher-strip" id="switcher-strip">
-                {pill_tabs_html}
-            </div>
-
-            <!-- In-Page Frame Container -->
-            <div class="pdf-frame-wrapper" id="pdf-frame-wrapper">
-                <iframe id="pdf-viewer" src="{default_slide['filename']}" type="application/pdf" title="MongoDB Slide Viewer">
-                    <p style="color: white; padding: 2.5rem; text-align: center;">
-                        Your browser does not support inline PDF viewing.<br><br>
-                        <a id="pdf-fallback-link" href="{default_slide['filename']}" target="_blank" role="button">Click here to open or download the PDF</a>
-                    </p>
-                </iframe>
-            </div>
-        </div>
-    </section>
-
-    <section style="margin-top: 3.5rem;">
+    <section>
         <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
-            <h3 style="margin: 0;">Deck Catalog &amp; Concept Coverage</h3>
+            <h3 style="margin: 0;">All Presentation Decks</h3>
             <span style="font-size: 0.85rem; color: var(--muted-color);" id="catalog-count-label">{len(slides_data)} Decks Available</span>
         </div>
-        <p style="font-size: 0.9rem; color: var(--muted-color); margin-bottom: 1.5rem;">Select any card below to load it into the embedded viewer above or download the PDF directly.</p>
         <div class="slides-catalog-grid" id="slides-catalog-grid">
             {catalog_cards_html}
         </div>
@@ -505,172 +427,6 @@ slides_content_html = f"""
 </article>
 
 <script>
-    const slidesData = {json.dumps(slides_data)};
-    let currentSlideIndex = 0;
-    let currentHeightMode = 'standard'; // 'standard', 'tall', 'compact'
-
-    function switchSlideDeck(filename) {{
-        const index = slidesData.findIndex(s => s.filename === filename);
-        if (index === -1) return;
-        currentSlideIndex = index;
-        const deck = slidesData[index];
-
-        // Update iframe source
-        const viewer = document.getElementById('pdf-viewer');
-        if (viewer) {{
-            viewer.src = deck.filename;
-        }}
-
-        // Update fallback link
-        const fallback = document.getElementById('pdf-fallback-link');
-        if (fallback) {{
-            fallback.href = deck.filename;
-        }}
-
-        // Update title & icon
-        const titleEl = document.getElementById('current-slide-title');
-        if (titleEl) titleEl.textContent = deck.title;
-        const iconEl = document.getElementById('current-deck-icon');
-        if (iconEl) iconEl.textContent = deck.icon || '📑';
-
-        // Update metadata subtitles
-        const catEl = document.getElementById('current-deck-category');
-        if (catEl) catEl.textContent = deck.category || 'General';
-        const deckNumEl = document.getElementById('current-deck-number');
-        if (deckNumEl) deckNumEl.textContent = `Deck ${{deck.deck_number || (index + 1)}} of ${{slidesData.length}}`;
-        const sizeEl = document.getElementById('current-deck-size');
-        if (sizeEl) sizeEl.textContent = deck.size;
-
-        // Update description
-        const descEl = document.getElementById('current-deck-description');
-        if (descEl) descEl.textContent = deck.description;
-
-        // Update topics chips
-        const topicsEl = document.getElementById('current-deck-topics');
-        if (topicsEl && deck.topics) {{
-            let chips = '<strong>Key Topics:</strong> ';
-            deck.topics.forEach(t => {{
-                chips += `<span class="topic-chip">${{t}}</span> `;
-            }});
-            topicsEl.innerHTML = chips;
-        }}
-
-        // Update related lessons
-        const lessonsEl = document.getElementById('current-deck-lessons');
-        if (lessonsEl) {{
-            if (deck.related_lessons && deck.related_lessons.length > 0) {{
-                const links = deck.related_lessons.map(rl => `<a href="../lesson${{rl.num}}/">Lesson ${{rl.num}} (${{rl.title}})</a>`);
-                lessonsEl.innerHTML = `<span>Related Lessons: ${{links.join(' · ')}}</span>`;
-                lessonsEl.style.display = 'block';
-            }} else {{
-                lessonsEl.style.display = 'none';
-            }}
-        }}
-
-        // Update action links
-        const newTabBtn = document.getElementById('open-new-tab-btn');
-        if (newTabBtn) newTabBtn.href = deck.filename;
-        const downloadBtn = document.getElementById('download-btn');
-        if (downloadBtn) {{
-            downloadBtn.href = deck.filename;
-            downloadBtn.setAttribute('download', deck.filename);
-        }}
-
-        // Update selector dropdown
-        const selector = document.getElementById('slide-selector');
-        if (selector && selector.value !== filename) {{
-            selector.value = filename;
-        }}
-
-        // Update prev/next button states
-        const prevBtn = document.getElementById('prev-deck-btn');
-        if (prevBtn) prevBtn.disabled = (index === 0);
-        const nextBtn = document.getElementById('next-deck-btn');
-        if (nextBtn) nextBtn.disabled = (index === slidesData.length - 1);
-
-        // Update pill tabs active state
-        document.querySelectorAll('.deck-pill-btn').forEach(btn => {{
-            if (btn.getAttribute('data-filename') === filename) {{
-                btn.classList.add('active');
-                btn.scrollIntoView({{ behavior: 'smooth', inline: 'nearest', block: 'nearest' }});
-            }} else {{
-                btn.classList.remove('active');
-            }}
-        }});
-
-        // Update active highlight on catalog card
-        document.querySelectorAll('.slide-deck-card').forEach(card => {{
-            if (card.getAttribute('data-filename') === filename) {{
-                card.classList.add('is-active-deck');
-            }} else {{
-                card.classList.remove('is-active-deck');
-            }}
-        }});
-
-        // Update URL query parameter without page reload
-        const url = new URL(window.location);
-        url.searchParams.set('deck', filename);
-        window.history.replaceState({{}}, '', url);
-    }}
-
-    function navPrevDeck() {{
-        if (currentSlideIndex > 0) {{
-            switchSlideDeck(slidesData[currentSlideIndex - 1].filename);
-        }}
-    }}
-
-    function navNextDeck() {{
-        if (currentSlideIndex < slidesData.length - 1) {{
-            switchSlideDeck(slidesData[currentSlideIndex + 1].filename);
-        }}
-    }}
-
-    function cycleViewerHeight() {{
-        const wrapper = document.getElementById('pdf-frame-wrapper');
-        const btn = document.getElementById('height-toggle-btn');
-        if (!wrapper) return;
-
-        if (currentHeightMode === 'standard') {{
-            wrapper.classList.remove('compact');
-            wrapper.classList.add('tall');
-            currentHeightMode = 'tall';
-            if (btn) btn.textContent = '↕ Tall (940px)';
-        }} else if (currentHeightMode === 'tall') {{
-            wrapper.classList.remove('tall');
-            wrapper.classList.add('compact');
-            currentHeightMode = 'compact';
-            if (btn) btn.textContent = '↕ Compact (640px)';
-        }} else {{
-            wrapper.classList.remove('compact', 'tall');
-            currentHeightMode = 'standard';
-            if (btn) btn.textContent = '↕ Height';
-        }}
-    }}
-
-    function toggleFullscreen() {{
-        const container = document.getElementById('viewer-container');
-        if (!document.fullscreenElement) {{
-            if (container.requestFullscreen) {{
-                container.requestFullscreen();
-            }} else if (container.webkitRequestFullscreen) {{
-                container.webkitRequestFullscreen();
-            }}
-            document.getElementById('fullscreen-btn').textContent = '✕ Exit';
-        }} else {{
-            if (document.exitFullscreen) {{
-                document.exitFullscreen();
-            }}
-            document.getElementById('fullscreen-btn').textContent = '⛶ Fullscreen';
-        }}
-    }}
-
-    document.addEventListener('fullscreenchange', () => {{
-        const btn = document.getElementById('fullscreen-btn');
-        if (btn) {{
-            btn.textContent = document.fullscreenElement ? '✕ Exit' : '⛶ Fullscreen';
-        }}
-    }});
-
     function filterByCategory(category) {{
         // Update active tab styling
         document.querySelectorAll('.category-tab').forEach(tab => {{
@@ -678,16 +434,6 @@ slides_content_html = f"""
                 tab.classList.add('active');
             }} else {{
                 tab.classList.remove('active');
-            }}
-        }});
-
-        // Filter switcher pills
-        document.querySelectorAll('.deck-pill-btn').forEach(pill => {{
-            const pillCat = pill.getAttribute('data-cat');
-            if (category === 'All' || pillCat === category) {{
-                pill.style.display = 'inline-flex';
-            }} else {{
-                pill.style.display = 'none';
             }}
         }});
 
@@ -708,25 +454,6 @@ slides_content_html = f"""
             countLabel.textContent = `${{visibleCount}} Decks (${{category}})`;
         }}
     }}
-
-    // Check URL parameter or hash on initial load
-    window.addEventListener('DOMContentLoaded', () => {{
-        const urlParams = new URLSearchParams(window.location.search);
-        const deckParam = urlParams.get('deck');
-        if (deckParam) {{
-            switchSlideDeck(deckParam);
-        }} else if (window.location.hash) {{
-            const hash = window.location.hash.replace('#', '');
-            const matched = slidesData.find(s => s.id === hash || s.filename === hash);
-            if (matched) {{
-                switchSlideDeck(matched.filename);
-            }} else {{
-                switchSlideDeck(slidesData[0].filename);
-            }}
-        }} else {{
-            switchSlideDeck(slidesData[0].filename);
-        }}
-    }});
 </script>
 """
 
@@ -740,7 +467,7 @@ for s in slides_data[:4]:
     icon = s.get("icon", "📑")
     cat = s.get("category", "General")
     home_cards_html += f"""
-    <div class="slide-deck-card">
+    <div class="slide-deck-card" onclick="window.open('slides/{s['filename']}', '_blank')">
         <div>
             <div class="card-top-header">
                 <div class="card-title-combo">
@@ -752,13 +479,12 @@ for s in slides_data[:4]:
                 </div>
                 <span class="nav-badge" style="margin: 0;">{s['size']}</span>
             </div>
-            <p class="description" style="margin-top: 0.5rem;">{html.escape(s['description'])}</p>
+            <p class="card-description" style="margin-top: 0.5rem;">{html.escape(s['description'])}</p>
         </div>
         <div class="slide-card-footer">
-            <span class="size-tag">{icon} Presentation</span>
+            <span class="size-tag">{icon} Presentation ({s['size']})</span>
             <div class="slide-card-actions">
-                <a href="slides/?deck={s['filename']}" role="button">👁️ View</a>
-                <a href="slides/{s['filename']}" target="_blank" role="button" class="secondary outline">↗️ PDF</a>
+                <a href="slides/{s['filename']}" target="_blank" role="button" onclick="event.stopPropagation()">↗ Open Slide Deck</a>
             </div>
         </div>
     </div>
@@ -774,7 +500,7 @@ home_snippet = f"""
         </p>
         <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
             <a href="lesson1/" role="button">Start Lesson 1: Basic Structure &amp; CRUD &rarr;</a>
-            <a href="slides/" role="button" class="secondary outline">Open In-Webpage Slides Viewer</a>
+            <a href="slides/" role="button" class="secondary outline">Browse All 8 Slide Decks</a>
         </div>
         <div class="hero-stats-row">
             <div class="stat-item">
@@ -802,7 +528,7 @@ home_snippet = f"""
                 <h3 style="margin: 0;">Featured Study Slides &amp; Playbooks</h3>
                 <p style="margin: 0.25rem 0 0 0; font-size: 0.88rem; color: var(--muted-color);">Visual summaries and architectural cheat sheets for fast reference.</p>
             </div>
-            <a href="slides/" style="font-size: 0.9rem; font-weight: 600;">View All 8 Slides with In-Page Viewer &rarr;</a>
+            <a href="slides/" style="font-size: 0.9rem; font-weight: 600;">View All 8 Slide Decks &rarr;</a>
         </div>
         <div class="slides-catalog-grid">
             {home_cards_html}
@@ -815,4 +541,4 @@ home_html = generate_html_wrapper("Home", home_snippet, active_lesson_num=None, 
 with open("index.html", 'w', encoding='utf-8') as out_file:
     out_file.write(home_html)
 
-print("Build completed successfully with rich slides viewer, default dark mode, and collapsible sidebar!")
+print("Build completed successfully: Clean slides catalog with direct new tab opening!")
