@@ -1,9 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aggregation: $lookup (Joins) - MongoDB Learning Site</title>
+    <title>Aggregation: $lookup (Joins) - MongoDB Learning &amp; Viva Prep</title>
+    <!-- Prevent theme flash -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Pico.css for minimalistic styling -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <!-- Prism.css for syntax highlighting -->
@@ -11,43 +22,88 @@
     <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
+    <!-- Floating expand button when sidebar is collapsed -->
+    <button id="floating-sidebar-toggle" type="button" onclick="toggleSidebar()" title="Expand Sidebar">
+        <span>☰</span>
+        <span>Navigation</span>
+    </button>
+
     <main class="container">
         <div class="grid">
-            <aside>
+            <aside id="main-sidebar">
+                <div class="sidebar-header-bar">
+                    <a href="../index.html" class="brand-badge">
+                        <span class="icon">🍃</span>
+                        <span>MongoViva</span>
+                    </a>
+                    <div class="sidebar-action-btns">
+                        <button class="icon-btn" id="theme-toggle-btn" type="button" onclick="toggleTheme()" title="Toggle Dark/Light Mode">🌙</button>
+                        <button class="icon-btn" id="collapse-sidebar-btn" type="button" onclick="toggleSidebar()" title="Collapse Sidebar">◀</button>
+                    </div>
+                </div>
+
                 <nav>
-                    <h3>Lessons</h3>
+                    <h3>Navigation</h3>
                     <div id="nav-container">
                         <ul>
-<li><a href="../index.html" class="">Home</a></li>
-<li><a href="../lesson1/">Basic Structure & CRUD</a></li>
-<li><a href="../lesson2/">Comparison Operators</a></li>
-<li><a href="../lesson3/">Logical Operators</a></li>
-<li><a href="../lesson4/">Array & Embedded Document Queries</a></li>
-<li><a href="../lesson5/">Projection, Sort, Skip, Limit</a></li>
-<li><a href="../lesson6/">Update Operators</a></li>
-<li><a href="../lesson7/">Schema Validation (Part 1)</a></li>
-<li><a href="../lesson8/">Schema Validation (Part 2) & Ordered Inserts</a></li>
-<li><a href="../lesson9/">Aggregation Framework (Basic)</a></li>
-<li><a href="../lesson10/">Aggregation: Unwind & Group</a></li>
-<li><a href="../lesson11/">Aggregation: Buckets & Sets</a></li>
-<li><a href="../lesson12/" class="active" style="font-weight: bold;">Aggregation: $lookup (Joins)</a></li>
-<li><a href="../lesson13/">Indexes and Performance</a></li>
+<li><a href="../index.html"><span>Home</span></a></li>
+<li><a href="../slides/"><span>Study Slides &amp; Playbooks</span> <span class="nav-badge">8</span></a></li>
+</ul>
+<div class="nav-section-heading">Hands-on Lessons</div>
+<ul>
+<li><a href="../lesson1/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#1</span>Basic Structure & CRUD</span></a></li>
+<li><a href="../lesson2/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#2</span>Comparison Operators</span></a></li>
+<li><a href="../lesson3/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#3</span>Logical Operators</span></a></li>
+<li><a href="../lesson4/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#4</span>Array & Embedded Document Queries</span></a></li>
+<li><a href="../lesson5/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#5</span>Projection, Sort, Skip, Limit</span></a></li>
+<li><a href="../lesson6/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#6</span>Update Operators</span></a></li>
+<li><a href="../lesson7/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#7</span>Schema Validation (Part 1)</span></a></li>
+<li><a href="../lesson8/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#8</span>Schema Validation (Part 2) & Ordered Inserts</span></a></li>
+<li><a href="../lesson9/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#9</span>Aggregation Framework (Basic)</span></a></li>
+<li><a href="../lesson10/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#10</span>Aggregation: Unwind & Group</span></a></li>
+<li><a href="../lesson11/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#11</span>Aggregation: Buckets & Sets</span></a></li>
+<li><a href="../lesson12/" class="active"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#12</span>Aggregation: $lookup (Joins)</span></a></li>
+<li><a href="../lesson13/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#13</span>Indexes and Performance</span></a></li>
 </ul>
                     </div>
                 </nav>
             </aside>
 
             <section id="content-container">
-
+                
     <article>
         <header>
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                <span class="nav-badge">Lesson 12</span>
+                <span style="font-size: 0.82rem; color: var(--muted-color); font-family: var(--font-mono);"><code>12day.js</code></span>
+            </div>
             <h2>Viva Prep: Aggregation: $lookup (Joins)</h2>
-            <p><strong>Source File:</strong> <code>12day.js</code></p>
+            <p>Review the collection schema, explore targeted queries, understand key gotchas, and test yourself with examiner questions.</p>
         </header>
-
-        <section style="margin-top: 2rem;">
-            <h3>Raw Queries</h3>
-            <pre><code class="language-mongodb">/*
+    
+        <div class="lesson-slide-banner">
+            <div class="banner-info">
+                <div class="banner-icon">📊</div>
+                <div class="banner-text">
+                    <strong>Recommended Slide Deck: MongoDB Aggregation Mastery</strong>
+                    <span>Visual diagrams, syntax tables &amp; reference cheat sheet (18.9 MB)</span>
+                </div>
+            </div>
+            <div class="banner-actions">
+                <a href="../slides/?deck=MongoDB_Aggregation_Mastery.pdf" role="button">👁️ View in Webpage</a>
+                <a href="../slides/MongoDB_Aggregation_Mastery.pdf" target="_blank" role="button" class="secondary outline">↗️ Open PDF</a>
+            </div>
+        </div>
+            
+        <section>
+            <h3>Raw Queries &amp; Operations</h3>
+            <p style="font-size: 0.9rem; color: var(--muted-color); margin-bottom: 0.6rem;">Key query execution patterns demonstrated in this lesson:</p>
+            <div class="code-wrapper">
+                <div class="code-header">
+                    <span>JAVASCRIPT / MONGODB SHELL</span>
+                    <button class="copy-code-btn" type="button" onclick="copyCode(this)">Copy</button>
+                </div>
+                <pre><code class="language-javascript">/*  
 $lookup means join
 join products table with orders table
 db.products.aggregate([
@@ -78,7 +134,7 @@ db.products.aggregate([
   {
     $match: {
       rating: { $gt: 4.5 }
-})]
+})] 
 
 // Display products and claculate where tax: 5% of price
 db.products.aggregate([
@@ -153,43 +209,62 @@ brand: {$addToSet:&quot;$brand&quot;}
 
 
 */</code></pre>
+            </div>
         </section>
-    <section style="margin-top: 2rem;"><h3>Deep Dive Concepts</h3>
-            <details style="margin-bottom: 1rem;" open>
+    <section><h3>Deep Dive Concepts &amp; Mechanics</h3>
+            <details open>
                 <summary><strong>$lookup (Left Outer Join)</strong></summary>
-                <div style="padding-left: 1rem; border-left: 3px solid var(--primary); margin-top: 1rem;">
-                    <p><strong>The Plain-English Breakdown:</strong> Performs a join with another collection in the same database to filter in documents from the 'joined' collection.</p>
-                    <p><strong>Real-World Use Case:</strong> Fetching user details alongside their recent orders (joining 'orders' with 'users').</p>
-                    <p><strong>The "Gotcha" (Common Pitfalls):</strong> <mark>The result is ALWAYS an array (even if there's only one match). You usually need an $unwind stage right after a $lookup.</mark></p>
-                    <p><strong>Memorization Hook:</strong> <em>$lookup = SQL JOIN.</em></p>
+                <div class="concept-body">
+                    <div class="concept-field">
+                        <strong>The Plain-English Breakdown:</strong>
+                        <span>Performs a join with another collection in the same database to filter in documents from the 'joined' collection.</span>
+                    </div>
+                    <div class="concept-field">
+                        <strong>Real-World Use Case:</strong>
+                        <span>Fetching user details alongside their recent orders (joining 'orders' with 'users').</span>
+                    </div>
+                    <div class="callout-box gotcha">
+                        <strong>⚠️ The "Gotcha":</strong>
+                        <span>The result is ALWAYS an array (even if there's only one match). You usually need an $unwind stage right after a $lookup.</span>
+                    </div>
+                    <div class="callout-box hook">
+                        <strong>💡 Memorization Hook:</strong>
+                        <span>$lookup = SQL JOIN.</span>
+                    </div>
                 </div>
             </details>
             </section>
-        <section style="margin-top: 2rem; background: var(--card-sectionning-background-color); padding: 1.5rem; border-radius: var(--border-radius);">
-            <h3>Examiner Q&A Simulator</h3>
-            <p><small>Click a question to reveal the answer.</small></p>
-
-            <details style="margin-bottom: 0.5rem;">
+        <section class="qna-container">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem;">
+                <h3 style="margin: 0; font-size: 1.15rem;">Examiner Q&amp;A Simulator</h3>
+                <span style="font-size: 0.78rem; color: var(--primary); font-weight: 600;">ACTIVE RECALL</span>
+            </div>
+            <p style="font-size: 0.88rem; color: var(--muted-color); margin-bottom: 1.25rem;">Click any question below to test your recall and reveal the model examiner answer.</p>
+            
+            <details class="qna-details">
                 <summary><strong>Examiner: What data type does the 'as' field in a $lookup produce?</strong></summary>
-                <div style="padding: 1rem; background: var(--background-color); margin-top: 0.5rem; border-radius: var(--border-radius);">
+                <div class="qna-answer">
                     It produces an array containing all matching documents from the foreign collection.
                 </div>
             </details>
-            </section>
+            
+        </section>
+        
     </article>
             </section>
         </div>
 
-        <footer id="footer-container" style="margin-top: 3rem; border-top: 1px solid var(--muted-border-color); padding-top: 1.5rem;">
-            <h3>Credits & Resources</h3>
+        <footer id="footer-container">
+            <h3>Credits &amp; Self-Study Resources</h3>
             <p>
-                The JavaScript examples and tutorials provided here are credited to my friend, the original author of the repository.
+                The JavaScript examples and tutorials are credited to the original repository author. Presentation slide decks and viva questions are curated for active recall and exam preparation.
             </p>
             <p>
-                <strong>Further Self-Study Resources:</strong>
+                <strong>Quick Links:</strong>
                 <ul>
-                    <li><a href="https://www.mongodb.com/docs/manual/" target="_blank">Official MongoDB Manual</a></li>
-                    <li><a href="https://www.mongodb.com/docs/drivers/node/current/" target="_blank">MongoDB Node.js Driver Documentation</a></li>
+                    <li><a href="../slides/">In-Webpage Study Slides &amp; Playbooks Viewer</a></li>
+                    <li><a href="https://www.mongodb.com/docs/manual/" target="_blank" rel="noopener">Official MongoDB Documentation</a></li>
+                    <li><a href="https://www.mongodb.com/docs/drivers/node/current/" target="_blank" rel="noopener">MongoDB Node.js Driver Guide</a></li>
                 </ul>
             </p>
         </footer>
@@ -199,5 +274,60 @@ brand: {$addToSet:&quot;$brand&quot;}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script>
+        // Copy code helper
+        function copyCode(btn) {
+            const wrapper = btn.closest('.code-wrapper');
+            const codeEl = wrapper ? wrapper.querySelector('code') : null;
+            if (codeEl) {
+                navigator.clipboard.writeText(codeEl.innerText).then(() => {
+                    const orig = btn.innerText;
+                    btn.innerText = '✓ Copied';
+                    btn.style.color = 'var(--primary)';
+                    btn.style.borderColor = 'var(--primary)';
+                    setTimeout(() => {
+                        btn.innerText = orig;
+                        btn.style.color = '';
+                        btn.style.borderColor = '';
+                    }, 2000);
+                }).catch(() => {
+                    btn.innerText = 'Error';
+                });
+            }
+        }
+
+        // Theme toggle logic
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme') || 'dark';
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            updateThemeButton(next);
+        }
+
+        function updateThemeButton(theme) {
+            const btn = document.getElementById('theme-toggle-btn');
+            if (btn) {
+                btn.textContent = theme === 'dark' ? '🌙' : '☀️';
+            }
+        }
+
+        // Collapsible sidebar logic
+        function toggleSidebar() {
+            document.body.classList.toggle('sidebar-collapsed');
+            const isCollapsed = document.body.classList.contains('sidebar-collapsed');
+            localStorage.setItem('sidebar_collapsed', isCollapsed);
+        }
+
+        // Initialize saved preferences
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            updateThemeButton(savedTheme);
+
+            if (localStorage.getItem('sidebar_collapsed') === 'true') {
+                document.body.classList.add('sidebar-collapsed');
+            }
+        })();
+    </script>
 </body>
 </html>

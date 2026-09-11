@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Slides & Playbooks - MongoDB Learning &amp; Viva Prep</title>
+    <!-- Prevent theme flash -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Pico.css for minimalistic styling -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <!-- Prism.css for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <!-- Floating expand button when sidebar is collapsed -->
+    <button id="floating-sidebar-toggle" type="button" onclick="toggleSidebar()" title="Expand Sidebar">
+        <span>☰</span>
+        <span>Navigation</span>
+    </button>
+
+    <main class="container">
+        <div class="grid">
+            <aside id="main-sidebar">
+                <div class="sidebar-header-bar">
+                    <a href="../index.html" class="brand-badge">
+                        <span class="icon">🍃</span>
+                        <span>MongoViva</span>
+                    </a>
+                    <div class="sidebar-action-btns">
+                        <button class="icon-btn" id="theme-toggle-btn" type="button" onclick="toggleTheme()" title="Toggle Dark/Light Mode">🌙</button>
+                        <button class="icon-btn" id="collapse-sidebar-btn" type="button" onclick="toggleSidebar()" title="Collapse Sidebar">◀</button>
+                    </div>
+                </div>
+
+                <nav>
+                    <h3>Navigation</h3>
+                    <div id="nav-container">
+                        <ul>
+<li><a href="../index.html"><span>Home</span></a></li>
+<li><a href="../slides/" class="active"><span>Study Slides &amp; Playbooks</span> <span class="nav-badge">8</span></a></li>
+</ul>
+<div class="nav-section-heading">Hands-on Lessons</div>
+<ul>
+<li><a href="../lesson1/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#1</span>Basic Structure & CRUD</span></a></li>
+<li><a href="../lesson2/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#2</span>Comparison Operators</span></a></li>
+<li><a href="../lesson3/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#3</span>Logical Operators</span></a></li>
+<li><a href="../lesson4/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#4</span>Array & Embedded Document Queries</span></a></li>
+<li><a href="../lesson5/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#5</span>Projection, Sort, Skip, Limit</span></a></li>
+<li><a href="../lesson6/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#6</span>Update Operators</span></a></li>
+<li><a href="../lesson7/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#7</span>Schema Validation (Part 1)</span></a></li>
+<li><a href="../lesson8/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#8</span>Schema Validation (Part 2) & Ordered Inserts</span></a></li>
+<li><a href="../lesson9/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#9</span>Aggregation Framework (Basic)</span></a></li>
+<li><a href="../lesson10/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#10</span>Aggregation: Unwind & Group</span></a></li>
+<li><a href="../lesson11/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#11</span>Aggregation: Buckets & Sets</span></a></li>
+<li><a href="../lesson12/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#12</span>Aggregation: $lookup (Joins)</span></a></li>
+<li><a href="../lesson13/"><span><span style="opacity: 0.55; margin-right: 0.35rem; font-size: 0.82rem;">#13</span>Indexes and Performance</span></a></li>
+</ul>
+                    </div>
+                </nav>
+            </aside>
+
+            <section id="content-container">
+                
+<article>
+    <header style="margin-bottom: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <span class="nav-badge">8 Playbook Decks</span>
+            <span style="font-size: 0.82rem; color: var(--muted-color);">Interactive In-Webpage Viewer</span>
+        </div>
+        <h2>Study Slides &amp; Visual Playbooks</h2>
+        <p>Interactive full-screen capable viewer for MongoDB presentation decks. Filter by category, step through decks, view directly in-page, or download for offline revision.</p>
+    </header>
+
+    <!-- Category Filter Tabs -->
+    <div class="category-filter-bar" id="category-filter-strip">
+        <button type="button" class="category-tab active" data-cat="All" onclick="filterByCategory('All')">All (8)</button>
+<button type="button" class="category-tab" data-cat="CRUD &amp; Core" onclick="filterByCategory('CRUD &amp; Core')">CRUD & Core (2)</button>
+<button type="button" class="category-tab" data-cat="Operators &amp; Arrays" onclick="filterByCategory('Operators &amp; Arrays')">Operators & Arrays (2)</button>
+<button type="button" class="category-tab" data-cat="Schema &amp; Architecture" onclick="filterByCategory('Schema &amp; Architecture')">Schema & Architecture (1)</button>
+<button type="button" class="category-tab" data-cat="Aggregation" onclick="filterByCategory('Aggregation')">Aggregation (1)</button>
+<button type="button" class="category-tab" data-cat="Viva &amp; Interviews" onclick="filterByCategory('Viva &amp; Interviews')">Viva & Interviews (2)</button>
+
+    </div>
+
+    <section id="viewer-section">
+        <div class="pdf-viewer-card" id="viewer-container">
+            <!-- Top Control Bar -->
+            <div class="pdf-viewer-header">
+                <div class="pdf-viewer-title-group">
+                    <span class="deck-icon-badge" id="current-deck-icon">⚡</span>
+                    <div class="pdf-viewer-title-text">
+                        <h3 id="current-slide-title">MongoDB CRUD Survival Guide</h3>
+                        <div class="deck-meta-subtitle">
+                            <span class="badge-tag" id="current-deck-category">CRUD & Core</span>
+                            <span class="badge-tag badge-blue" id="current-deck-number">Deck 1 of 8</span>
+                            <span id="current-deck-size">10.6 MB</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="pdf-viewer-controls">
+                    <button type="button" class="secondary outline" id="prev-deck-btn" onclick="navPrevDeck()" title="Previous Slide Deck">← Prev</button>
+                    <button type="button" class="secondary outline" id="next-deck-btn" onclick="navNextDeck()" title="Next Slide Deck">Next →</button>
+                    <select id="slide-selector" class="pdf-select-dropdown" onchange="switchSlideDeck(this.value)">
+                        <option value="MongoDB_CRUD_Survival_Guide.pdf" selected>⚡ Deck #1: MongoDB CRUD Survival Guide (10.6 MB)</option>
+<option value="MongoDB_Operator_Playbook.pdf">🔍 Deck #2: MongoDB Operator Playbook (10.9 MB)</option>
+<option value="MongoDB_Array_Query_Playbook.pdf">🧩 Deck #3: MongoDB Array Query Playbook (14.9 MB)</option>
+<option value="MongoDB_Update_Operator_Dossier.pdf">🔄 Deck #4: MongoDB Update Operator Dossier (8.9 MB)</option>
+<option value="MongoDB_Schema_Dossier.pdf">🛡️ Deck #5: MongoDB Schema Dossier (18.0 MB)</option>
+<option value="MongoDB_Aggregation_Mastery.pdf">📊 Deck #6: MongoDB Aggregation Mastery (18.9 MB)</option>
+<option value="MongoDB_Interview_Dossier.pdf">🎯 Deck #7: MongoDB Interview Dossier (9.4 MB)</option>
+<option value="MongoDB_Viva_Blueprint.pdf">🎓 Deck #8: MongoDB Viva Blueprint (11.1 MB)</option>
+
+                    </select>
+                    <button id="height-toggle-btn" type="button" class="secondary outline" onclick="cycleViewerHeight()" title="Toggle Viewer Height">↕ Height</button>
+                    <button id="fullscreen-btn" type="button" class="secondary outline" onclick="toggleFullscreen()" title="Fullscreen Mode">⛶ Fullscreen</button>
+                    <a id="open-new-tab-btn" href="MongoDB_CRUD_Survival_Guide.pdf" target="_blank" role="button" class="secondary outline">↗️ New Tab</a>
+                    <a id="download-btn" href="MongoDB_CRUD_Survival_Guide.pdf" download role="button" class="contrast outline">⬇️ Download</a>
+                </div>
+            </div>
+
+            <!-- In-Card Meta Subbanner -->
+            <div class="viewer-info-subbanner">
+                <p id="current-deck-description">Essential foundational playbook for database creation, collections, document insertion, and robust query patterns.</p>
+                <div class="viewer-topics-bar" id="current-deck-topics">
+                    <strong>Key Topics:</strong>
+                    <span class="topic-chip">insertOne / insertMany</span><span class="topic-chip">find() queries</span><span class="topic-chip">updateOne / updateMany</span><span class="topic-chip">delete filters</span><span class="topic-chip">Cursor methods</span>
+                </div>
+                <div class="viewer-related-lessons" id="current-deck-lessons">
+                    <span>Related Lessons: <a href="../lesson1/">Lesson 1 (Basic Structure & CRUD)</a> · <a href="../lesson5/">Lesson 5 (Projection, Sort, Skip, Limit)</a></span>
+                </div>
+            </div>
+
+            <!-- Quick Switcher Strip -->
+            <div class="deck-switcher-strip" id="switcher-strip">
+                <button class="deck-pill-btn active" data-filename="MongoDB_CRUD_Survival_Guide.pdf" data-cat="CRUD &amp; Core" data-title="MongoDB CRUD Survival Guide" onclick="switchSlideDeck('MongoDB_CRUD_Survival_Guide.pdf')"><span>⚡</span> <span>MongoDB CRUD Survival Guide</span></button>
+<button class="deck-pill-btn" data-filename="MongoDB_Operator_Playbook.pdf" data-cat="Operators &amp; Arrays" data-title="MongoDB Operator Playbook" onclick="switchSlideDeck('MongoDB_Operator_Playbook.pdf')"><span>🔍</span> <span>MongoDB Operator Playbook</span></button>
+<button class="deck-pill-btn" data-filename="MongoDB_Array_Query_Playbook.pdf" data-cat="Operators &amp; Arrays" data-title="MongoDB Array Query Playbook" onclick="switchSlideDeck('MongoDB_Array_Query_Playbook.pdf')"><span>🧩</span> <span>MongoDB Array Query Playbook</span></button>
+<button class="deck-pill-btn" data-filename="MongoDB_Update_Operator_Dossier.pdf" data-cat="CRUD &amp; Core" data-title="MongoDB Update Operator Dossier" onclick="switchSlideDeck('MongoDB_Update_Operator_Dossier.pdf')"><span>🔄</span> <span>MongoDB Update Operator Dossier</span></button>
+<button class="deck-pill-btn" data-filename="MongoDB_Schema_Dossier.pdf" data-cat="Schema &amp; Architecture" data-title="MongoDB Schema Dossier" onclick="switchSlideDeck('MongoDB_Schema_Dossier.pdf')"><span>🛡️</span> <span>MongoDB Schema Dossier</span></button>
+<button class="deck-pill-btn" data-filename="MongoDB_Aggregation_Mastery.pdf" data-cat="Aggregation" data-title="MongoDB Aggregation Mastery" onclick="switchSlideDeck('MongoDB_Aggregation_Mastery.pdf')"><span>📊</span> <span>MongoDB Aggregation Mastery</span></button>
+<button class="deck-pill-btn" data-filename="MongoDB_Interview_Dossier.pdf" data-cat="Viva &amp; Interviews" data-title="MongoDB Interview Dossier" onclick="switchSlideDeck('MongoDB_Interview_Dossier.pdf')"><span>🎯</span> <span>MongoDB Interview Dossier</span></button>
+<button class="deck-pill-btn" data-filename="MongoDB_Viva_Blueprint.pdf" data-cat="Viva &amp; Interviews" data-title="MongoDB Viva Blueprint" onclick="switchSlideDeck('MongoDB_Viva_Blueprint.pdf')"><span>🎓</span> <span>MongoDB Viva Blueprint</span></button>
+
+            </div>
+
+            <!-- In-Page Frame Container -->
+            <div class="pdf-frame-wrapper" id="pdf-frame-wrapper">
+                <iframe id="pdf-viewer" src="MongoDB_CRUD_Survival_Guide.pdf" type="application/pdf" title="MongoDB Slide Viewer">
+                    <p style="color: white; padding: 2.5rem; text-align: center;">
+                        Your browser does not support inline PDF viewing.<br><br>
+                        <a id="pdf-fallback-link" href="MongoDB_CRUD_Survival_Guide.pdf" target="_blank" role="button">Click here to open or download the PDF</a>
+                    </p>
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <section style="margin-top: 3.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <h3 style="margin: 0;">Deck Catalog &amp; Concept Coverage</h3>
+            <span style="font-size: 0.85rem; color: var(--muted-color);" id="catalog-count-label">8 Decks Available</span>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--muted-color); margin-bottom: 1.5rem;">Select any card below to load it into the embedded viewer above or download the PDF directly.</p>
+        <div class="slides-catalog-grid" id="slides-catalog-grid">
+            
+    <div class="slide-deck-card is-active-deck" id="card-crud-survival-guide" data-filename="MongoDB_CRUD_Survival_Guide.pdf" data-cat="CRUD &amp; Core">
+        <div>
+            <div class="card-top-header">
+                <div class="card-title-combo">
+                    <span class="card-icon">⚡</span>
+                    <div>
+                        <h4>MongoDB CRUD Survival Guide</h4>
+                        <div style="display: flex; gap: 0.4rem; align-items: center; margin-top: 0.2rem;">
+                            <span class="badge-tag">Deck #1</span>
+                            <span class="badge-tag badge-blue">CRUD & Core</span>
+                        </div>
+                    </div>
+                </div>
+                <span class="nav-badge" style="margin: 0; white-space: nowrap;">10.6 MB</span>
+            </div>
+            <p class="description" style="margin-top: 0.6rem;">Essential foundational playbook for database creation, collections, document insertion, and robust query patterns.</p>
+            <ul class="card-highlights-list"><li>Implicit database &amp; collection creation gotchas</li><li>updateOne vs updateMany behavioral divergence</li><li>Projection mechanics &amp; cursor iteration optimization</li></ul>
+            <div class="slide-topics-list">
+                <span class="topic-chip">insertOne / insertMany</span><span class="topic-chip">find() queries</span><span class="topic-chip">updateOne / updateMany</span><span class="topic-chip">delete filters</span><span class="topic-chip">Cursor methods</span>
+            </div>
+            <p style="font-size: 0.8rem; margin: 0.4rem 0 0.8rem 0; color: var(--muted-color);"><strong>Related:</strong> <a href="../lesson1/">Lesson 1</a> · <a href="../lesson5/">Lesson 5</a></p>
+        </div>
+        <div class="slide-card-footer">
+            <span class="size-tag">⚡ Presentation</span>
+            <div class="slide-card-actions">
+                <button type="button" onclick="switchSlideDeck('MongoDB_CRUD_Survival_Guide.pdf'); document.getElementById('viewer-section').scrollIntoView({behavior: 'smooth'});">👁️ Load</button>
+                <a href="MongoDB_CRUD_Survival_Guide.pdf" target="_blank" role="button" class="secondary outline">↗️ Tab</a>
+                <a href="MongoDB_CRUD_Survival_Guide.pdf" download role="button" class="contrast outline">⬇️</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slide-deck-card" id="card-operator-playbook" data-filename="MongoDB_Operator_Playbook.pdf" data-cat="Operators &amp; Arrays">
+        <div>
+            <div class="card-top-header">
+                <div class="card-title-combo">
+                    <span class="card-icon">🔍</span>
+                    <div>
+                        <h4>MongoDB Operator Playbook</h4>
+                        <div style="display: flex; gap: 0.4rem; align-items: center; margin-top: 0.2rem;">
+                            <span class="badge-tag">Deck #2</span>
+                            <span class="badge-tag badge-blue">Operators & Arrays</span>
+                        </div>
+                    </div>
+                </div>
+                <span class="nav-badge" style="margin: 0; white-space: nowrap;">10.9 MB</span>
+            </div>
+            <p class="description" style="margin-top: 0.6rem;">Comprehensive reference guide to comparison, logical, and element query operators for high-precision filtering.</p>
+            <ul class="card-highlights-list"><li>$in array syntax traps vs single value mistakes</li><li>Short-circuit evaluation in compound $or queries</li><li>$exists: false vs null field nuances</li></ul>
+            <div class="slide-topics-list">
+                <span class="topic-chip">$gt / $gte / $lt / $lte</span><span class="topic-chip">$in / $nin</span><span class="topic-chip">$and / $or / $nor</span><span class="topic-chip">$exists / $type</span><span class="topic-chip">Regex Filters</span>
+            </div>
+            <p style="font-size: 0.8rem; margin: 0.4rem 0 0.8rem 0; color: var(--muted-color);"><strong>Related:</strong> <a href="../lesson2/">Lesson 2</a> · <a href="../lesson3/">Lesson 3</a></p>
+        </div>
+        <div class="slide-card-footer">
+            <span class="size-tag">🔍 Presentation</span>
+            <div class="slide-card-actions">
+                <button type="button" onclick="switchSlideDeck('MongoDB_Operator_Playbook.pdf'); document.getElementById('viewer-section').scrollIntoView({behavior: 'smooth'});">👁️ Load</button>
+                <a href="MongoDB_Operator_Playbook.pdf" target="_blank" role="button" class="secondary outline">↗️ Tab</a>
+                <a href="MongoDB_Operator_Playbook.pdf" download role="button" class="contrast outline">⬇️</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slide-deck-card" id="card-array-query-playbook" data-filename="MongoDB_Array_Query_Playbook.pdf" data-cat="Operators &amp; Arrays">
+        <div>
+            <div class="card-top-header">
+                <div class="card-title-combo">
+                    <span class="card-icon">🧩</span>
+                    <div>
+                        <h4>MongoDB Array Query Playbook</h4>
+                        <div style="display: flex; gap: 0.4rem; align-items: center; margin-top: 0.2rem;">
+                            <span class="badge-tag">Deck #3</span>
+                            <span class="badge-tag badge-blue">Operators & Arrays</span>
+                        </div>
+                    </div>
+                </div>
+                <span class="nav-badge" style="margin: 0; white-space: nowrap;">14.9 MB</span>
+            </div>
+            <p class="description" style="margin-top: 0.6rem;">Mastering nested arrays, multidimensional objects, subdocuments, and targeted document querying in MongoDB.</p>
+            <ul class="card-highlights-list"><li>Why simple dot notation fails on multi-criteria array objects</li><li>$elemMatch exact mechanics for subdocument arrays</li><li>$size exact match limits &amp; indexing workarounds</li></ul>
+            <div class="slide-topics-list">
+                <span class="topic-chip">$all</span><span class="topic-chip">$elemMatch</span><span class="topic-chip">$size</span><span class="topic-chip">Positional operator $</span><span class="topic-chip">Dot notation</span>
+            </div>
+            <p style="font-size: 0.8rem; margin: 0.4rem 0 0.8rem 0; color: var(--muted-color);"><strong>Related:</strong> <a href="../lesson4/">Lesson 4</a></p>
+        </div>
+        <div class="slide-card-footer">
+            <span class="size-tag">🧩 Presentation</span>
+            <div class="slide-card-actions">
+                <button type="button" onclick="switchSlideDeck('MongoDB_Array_Query_Playbook.pdf'); document.getElementById('viewer-section').scrollIntoView({behavior: 'smooth'});">👁️ Load</button>
+                <a href="MongoDB_Array_Query_Playbook.pdf" target="_blank" role="button" class="secondary outline">↗️ Tab</a>
+                <a href="MongoDB_Array_Query_Playbook.pdf" download role="button" class="contrast outline">⬇️</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slide-deck-card" id="card-update-operator-dossier" data-filename="MongoDB_Update_Operator_Dossier.pdf" data-cat="CRUD &amp; Core">
+        <div>
+            <div class="card-top-header">
+                <div class="card-title-combo">
+                    <span class="card-icon">🔄</span>
+                    <div>
+                        <h4>MongoDB Update Operator Dossier</h4>
+                        <div style="display: flex; gap: 0.4rem; align-items: center; margin-top: 0.2rem;">
+                            <span class="badge-tag">Deck #4</span>
+                            <span class="badge-tag badge-blue">CRUD & Core</span>
+                        </div>
+                    </div>
+                </div>
+                <span class="nav-badge" style="margin: 0; white-space: nowrap;">8.9 MB</span>
+            </div>
+            <p class="description" style="margin-top: 0.6rem;">Field modifications, array mutations, upserts, and atomic state transitions without data corruption.</p>
+            <ul class="card-highlights-list"><li>Accidental document replacement without $set</li><li>$addToSet deduplication vs $push append behavior</li><li>Array filters with $[identifier] for selective sub-updates</li></ul>
+            <div class="slide-topics-list">
+                <span class="topic-chip">$set / $unset</span><span class="topic-chip">$inc / $mul</span><span class="topic-chip">$push / $pull / $pop</span><span class="topic-chip">$addToSet / $each</span><span class="topic-chip">upsert: true</span>
+            </div>
+            <p style="font-size: 0.8rem; margin: 0.4rem 0 0.8rem 0; color: var(--muted-color);"><strong>Related:</strong> <a href="../lesson6/">Lesson 6</a></p>
+        </div>
+        <div class="slide-card-footer">
+            <span class="size-tag">🔄 Presentation</span>
+            <div class="slide-card-actions">
+                <button type="button" onclick="switchSlideDeck('MongoDB_Update_Operator_Dossier.pdf'); document.getElementById('viewer-section').scrollIntoView({behavior: 'smooth'});">👁️ Load</button>
+                <a href="MongoDB_Update_Operator_Dossier.pdf" target="_blank" role="button" class="secondary outline">↗️ Tab</a>
+                <a href="MongoDB_Update_Operator_Dossier.pdf" download role="button" class="contrast outline">⬇️</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slide-deck-card" id="card-schema-dossier" data-filename="MongoDB_Schema_Dossier.pdf" data-cat="Schema &amp; Architecture">
+        <div>
+            <div class="card-top-header">
+                <div class="card-title-combo">
+                    <span class="card-icon">🛡️</span>
+                    <div>
+                        <h4>MongoDB Schema Dossier</h4>
+                        <div style="display: flex; gap: 0.4rem; align-items: center; margin-top: 0.2rem;">
+                            <span class="badge-tag">Deck #5</span>
+                            <span class="badge-tag badge-blue">Schema & Architecture</span>
+                        </div>
+                    </div>
+                </div>
+                <span class="nav-badge" style="margin: 0; white-space: nowrap;">18.0 MB</span>
+            </div>
+            <p class="description" style="margin-top: 0.6rem;">JSON schema validation, strict typing rules, data integrity enforcement, and ordered vs unordered execution.</p>
+            <ul class="card-highlights-list"><li>ordered: true failure rollback behavior vs ordered: false</li><li>Strict bsonType validation with regex patterns</li><li>validationAction: error vs warn production tradeoffs</li></ul>
+            <div class="slide-topics-list">
+                <span class="topic-chip">$jsonSchema</span><span class="topic-chip">bsonType validation</span><span class="topic-chip">required properties</span><span class="topic-chip">validationLevel</span><span class="topic-chip">ordered inserts</span>
+            </div>
+            <p style="font-size: 0.8rem; margin: 0.4rem 0 0.8rem 0; color: var(--muted-color);"><strong>Related:</strong> <a href="../lesson7/">Lesson 7</a> · <a href="../lesson8/">Lesson 8</a></p>
+        </div>
+        <div class="slide-card-footer">
+            <span class="size-tag">🛡️ Presentation</span>
+            <div class="slide-card-actions">
+                <button type="button" onclick="switchSlideDeck('MongoDB_Schema_Dossier.pdf'); document.getElementById('viewer-section').scrollIntoView({behavior: 'smooth'});">👁️ Load</button>
+                <a href="MongoDB_Schema_Dossier.pdf" target="_blank" role="button" class="secondary outline">↗️ Tab</a>
+                <a href="MongoDB_Schema_Dossier.pdf" download role="button" class="contrast outline">⬇️</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slide-deck-card" id="card-aggregation-mastery" data-filename="MongoDB_Aggregation_Mastery.pdf" data-cat="Aggregation">
+        <div>
+            <div class="card-top-header">
+                <div class="card-title-combo">
+                    <span class="card-icon">📊</span>
+                    <div>
+                        <h4>MongoDB Aggregation Mastery</h4>
+                        <div style="display: flex; gap: 0.4rem; align-items: center; margin-top: 0.2rem;">
+                            <span class="badge-tag">Deck #6</span>
+                            <span class="badge-tag badge-blue">Aggregation</span>
+                        </div>
+                    </div>
+                </div>
+                <span class="nav-badge" style="margin: 0; white-space: nowrap;">18.9 MB</span>
+            </div>
+            <p class="description" style="margin-top: 0.6rem;">Comprehensive pipeline stages from basic transforms and joins to complex multi-stage analytical queries.</p>
+            <ul class="card-highlights-list"><li>Pipeline order optimization ($match first for early filter)</li><li>$lookup produce array gotcha requiring $unwind</li><li>RAM limit (100MB) per stage &amp; allowDiskUse option</li></ul>
+            <div class="slide-topics-list">
+                <span class="topic-chip">$match &amp; $project</span><span class="topic-chip">$group &amp; accumulators</span><span class="topic-chip">$unwind arrays</span><span class="topic-chip">$lookup joins</span><span class="topic-chip">$bucketAuto</span><span class="topic-chip">$facet</span>
+            </div>
+            <p style="font-size: 0.8rem; margin: 0.4rem 0 0.8rem 0; color: var(--muted-color);"><strong>Related:</strong> <a href="../lesson9/">Lesson 9</a> · <a href="../lesson10/">Lesson 10</a> · <a href="../lesson11/">Lesson 11</a> · <a href="../lesson12/">Lesson 12</a></p>
+        </div>
+        <div class="slide-card-footer">
+            <span class="size-tag">📊 Presentation</span>
+            <div class="slide-card-actions">
+                <button type="button" onclick="switchSlideDeck('MongoDB_Aggregation_Mastery.pdf'); document.getElementById('viewer-section').scrollIntoView({behavior: 'smooth'});">👁️ Load</button>
+                <a href="MongoDB_Aggregation_Mastery.pdf" target="_blank" role="button" class="secondary outline">↗️ Tab</a>
+                <a href="MongoDB_Aggregation_Mastery.pdf" download role="button" class="contrast outline">⬇️</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slide-deck-card" id="card-interview-dossier" data-filename="MongoDB_Interview_Dossier.pdf" data-cat="Viva &amp; Interviews">
+        <div>
+            <div class="card-top-header">
+                <div class="card-title-combo">
+                    <span class="card-icon">🎯</span>
+                    <div>
+                        <h4>MongoDB Interview Dossier</h4>
+                        <div style="display: flex; gap: 0.4rem; align-items: center; margin-top: 0.2rem;">
+                            <span class="badge-tag">Deck #7</span>
+                            <span class="badge-tag badge-blue">Viva & Interviews</span>
+                        </div>
+                    </div>
+                </div>
+                <span class="nav-badge" style="margin: 0; white-space: nowrap;">9.4 MB</span>
+            </div>
+            <p class="description" style="margin-top: 0.6rem;">Curated high-yield architectural, indexing, replication, and performance questions for technical rounds.</p>
+            <ul class="card-highlights-list"><li>Index ESR rule (Equality, Sort, Range) design principles</li><li>Covered queries (0 document scan from disk)</li><li>Write concerns, read concerns, and replica election failovers</li></ul>
+            <div class="slide-topics-list">
+                <span class="topic-chip">Indexing (B-Tree, compound, multikey)</span><span class="topic-chip">Execution stats (IXSCAN vs COLLSCAN)</span><span class="topic-chip">WiredTiger storage</span><span class="topic-chip">Replica sets &amp; Sharding</span>
+            </div>
+            <p style="font-size: 0.8rem; margin: 0.4rem 0 0.8rem 0; color: var(--muted-color);"><strong>Related:</strong> <a href="../lesson13/">Lesson 13</a></p>
+        </div>
+        <div class="slide-card-footer">
+            <span class="size-tag">🎯 Presentation</span>
+            <div class="slide-card-actions">
+                <button type="button" onclick="switchSlideDeck('MongoDB_Interview_Dossier.pdf'); document.getElementById('viewer-section').scrollIntoView({behavior: 'smooth'});">👁️ Load</button>
+                <a href="MongoDB_Interview_Dossier.pdf" target="_blank" role="button" class="secondary outline">↗️ Tab</a>
+                <a href="MongoDB_Interview_Dossier.pdf" download role="button" class="contrast outline">⬇️</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slide-deck-card" id="card-viva-blueprint" data-filename="MongoDB_Viva_Blueprint.pdf" data-cat="Viva &amp; Interviews">
+        <div>
+            <div class="card-top-header">
+                <div class="card-title-combo">
+                    <span class="card-icon">🎓</span>
+                    <div>
+                        <h4>MongoDB Viva Blueprint</h4>
+                        <div style="display: flex; gap: 0.4rem; align-items: center; margin-top: 0.2rem;">
+                            <span class="badge-tag">Deck #8</span>
+                            <span class="badge-tag badge-blue">Viva & Interviews</span>
+                        </div>
+                    </div>
+                </div>
+                <span class="nav-badge" style="margin: 0; white-space: nowrap;">11.1 MB</span>
+            </div>
+            <p class="description" style="margin-top: 0.6rem;">High-impact active recall blueprint designed for viva exams, oral board questions, and rapid oral review.</p>
+            <ul class="card-highlights-list"><li>BSON binary serialization vs JSON text differences</li><li>Multi-document ACID transactions via sessions</li><li>Examiner trick questions on null vs missing keys</li></ul>
+            <div class="slide-topics-list">
+                <span class="topic-chip">Examiner gotchas &amp; traps</span><span class="topic-chip">Key definitions &amp; syntax</span><span class="topic-chip">BSON vs JSON</span><span class="topic-chip">ACID &amp; Transactions</span><span class="topic-chip">C-D-C-D hierarchy</span>
+            </div>
+            
+        </div>
+        <div class="slide-card-footer">
+            <span class="size-tag">🎓 Presentation</span>
+            <div class="slide-card-actions">
+                <button type="button" onclick="switchSlideDeck('MongoDB_Viva_Blueprint.pdf'); document.getElementById('viewer-section').scrollIntoView({behavior: 'smooth'});">👁️ Load</button>
+                <a href="MongoDB_Viva_Blueprint.pdf" target="_blank" role="button" class="secondary outline">↗️ Tab</a>
+                <a href="MongoDB_Viva_Blueprint.pdf" download role="button" class="contrast outline">⬇️</a>
+            </div>
+        </div>
+    </div>
+    
+        </div>
+    </section>
+</article>
+
+<script>
+    const slidesData = [{"id": "crud-survival-guide", "deck_number": 1, "icon": "\u26a1", "category": "CRUD & Core", "filename": "MongoDB_CRUD_Survival_Guide.pdf", "title": "MongoDB CRUD Survival Guide", "description": "Essential foundational playbook for database creation, collections, document insertion, and robust query patterns.", "topics": ["insertOne / insertMany", "find() queries", "updateOne / updateMany", "delete filters", "Cursor methods"], "highlights": ["Implicit database & collection creation gotchas", "updateOne vs updateMany behavioral divergence", "Projection mechanics & cursor iteration optimization"], "size": "10.6 MB", "related_lessons": [{"num": "1", "title": "Basic Structure & CRUD"}, {"num": "5", "title": "Projection, Sort, Skip, Limit"}]}, {"id": "operator-playbook", "deck_number": 2, "icon": "\ud83d\udd0d", "category": "Operators & Arrays", "filename": "MongoDB_Operator_Playbook.pdf", "title": "MongoDB Operator Playbook", "description": "Comprehensive reference guide to comparison, logical, and element query operators for high-precision filtering.", "topics": ["$gt / $gte / $lt / $lte", "$in / $nin", "$and / $or / $nor", "$exists / $type", "Regex Filters"], "highlights": ["$in array syntax traps vs single value mistakes", "Short-circuit evaluation in compound $or queries", "$exists: false vs null field nuances"], "size": "10.9 MB", "related_lessons": [{"num": "2", "title": "Comparison Operators"}, {"num": "3", "title": "Logical Operators"}]}, {"id": "array-query-playbook", "deck_number": 3, "icon": "\ud83e\udde9", "category": "Operators & Arrays", "filename": "MongoDB_Array_Query_Playbook.pdf", "title": "MongoDB Array Query Playbook", "description": "Mastering nested arrays, multidimensional objects, subdocuments, and targeted document querying in MongoDB.", "topics": ["$all", "$elemMatch", "$size", "Positional operator $", "Dot notation"], "highlights": ["Why simple dot notation fails on multi-criteria array objects", "$elemMatch exact mechanics for subdocument arrays", "$size exact match limits & indexing workarounds"], "size": "14.9 MB", "related_lessons": [{"num": "4", "title": "Array & Embedded Document Queries"}]}, {"id": "update-operator-dossier", "deck_number": 4, "icon": "\ud83d\udd04", "category": "CRUD & Core", "filename": "MongoDB_Update_Operator_Dossier.pdf", "title": "MongoDB Update Operator Dossier", "description": "Field modifications, array mutations, upserts, and atomic state transitions without data corruption.", "topics": ["$set / $unset", "$inc / $mul", "$push / $pull / $pop", "$addToSet / $each", "upsert: true"], "highlights": ["Accidental document replacement without $set", "$addToSet deduplication vs $push append behavior", "Array filters with $[identifier] for selective sub-updates"], "size": "8.9 MB", "related_lessons": [{"num": "6", "title": "Update Operators"}]}, {"id": "schema-dossier", "deck_number": 5, "icon": "\ud83d\udee1\ufe0f", "category": "Schema & Architecture", "filename": "MongoDB_Schema_Dossier.pdf", "title": "MongoDB Schema Dossier", "description": "JSON schema validation, strict typing rules, data integrity enforcement, and ordered vs unordered execution.", "topics": ["$jsonSchema", "bsonType validation", "required properties", "validationLevel", "ordered inserts"], "highlights": ["ordered: true failure rollback behavior vs ordered: false", "Strict bsonType validation with regex patterns", "validationAction: error vs warn production tradeoffs"], "size": "18.0 MB", "related_lessons": [{"num": "7", "title": "Schema Validation (Part 1)"}, {"num": "8", "title": "Schema Validation (Part 2) & Ordered Inserts"}]}, {"id": "aggregation-mastery", "deck_number": 6, "icon": "\ud83d\udcca", "category": "Aggregation", "filename": "MongoDB_Aggregation_Mastery.pdf", "title": "MongoDB Aggregation Mastery", "description": "Comprehensive pipeline stages from basic transforms and joins to complex multi-stage analytical queries.", "topics": ["$match & $project", "$group & accumulators", "$unwind arrays", "$lookup joins", "$bucketAuto", "$facet"], "highlights": ["Pipeline order optimization ($match first for early filter)", "$lookup produce array gotcha requiring $unwind", "RAM limit (100MB) per stage & allowDiskUse option"], "size": "18.9 MB", "related_lessons": [{"num": "9", "title": "Aggregation Framework (Basic)"}, {"num": "10", "title": "Aggregation: Unwind & Group"}, {"num": "11", "title": "Aggregation: Buckets & Sets"}, {"num": "12", "title": "Aggregation: $lookup (Joins)"}]}, {"id": "interview-dossier", "deck_number": 7, "icon": "\ud83c\udfaf", "category": "Viva & Interviews", "filename": "MongoDB_Interview_Dossier.pdf", "title": "MongoDB Interview Dossier", "description": "Curated high-yield architectural, indexing, replication, and performance questions for technical rounds.", "topics": ["Indexing (B-Tree, compound, multikey)", "Execution stats (IXSCAN vs COLLSCAN)", "WiredTiger storage", "Replica sets & Sharding"], "highlights": ["Index ESR rule (Equality, Sort, Range) design principles", "Covered queries (0 document scan from disk)", "Write concerns, read concerns, and replica election failovers"], "size": "9.4 MB", "related_lessons": [{"num": "13", "title": "Indexes and Performance"}]}, {"id": "viva-blueprint", "deck_number": 8, "icon": "\ud83c\udf93", "category": "Viva & Interviews", "filename": "MongoDB_Viva_Blueprint.pdf", "title": "MongoDB Viva Blueprint", "description": "High-impact active recall blueprint designed for viva exams, oral board questions, and rapid oral review.", "topics": ["Examiner gotchas & traps", "Key definitions & syntax", "BSON vs JSON", "ACID & Transactions", "C-D-C-D hierarchy"], "highlights": ["BSON binary serialization vs JSON text differences", "Multi-document ACID transactions via sessions", "Examiner trick questions on null vs missing keys"], "size": "11.1 MB", "related_lessons": []}];
+    let currentSlideIndex = 0;
+    let currentHeightMode = 'standard'; // 'standard', 'tall', 'compact'
+
+    function switchSlideDeck(filename) {
+        const index = slidesData.findIndex(s => s.filename === filename);
+        if (index === -1) return;
+        currentSlideIndex = index;
+        const deck = slidesData[index];
+
+        // Update iframe source
+        const viewer = document.getElementById('pdf-viewer');
+        if (viewer) {
+            viewer.src = deck.filename;
+        }
+
+        // Update fallback link
+        const fallback = document.getElementById('pdf-fallback-link');
+        if (fallback) {
+            fallback.href = deck.filename;
+        }
+
+        // Update title & icon
+        const titleEl = document.getElementById('current-slide-title');
+        if (titleEl) titleEl.textContent = deck.title;
+        const iconEl = document.getElementById('current-deck-icon');
+        if (iconEl) iconEl.textContent = deck.icon || '📑';
+
+        // Update metadata subtitles
+        const catEl = document.getElementById('current-deck-category');
+        if (catEl) catEl.textContent = deck.category || 'General';
+        const deckNumEl = document.getElementById('current-deck-number');
+        if (deckNumEl) deckNumEl.textContent = `Deck ${deck.deck_number || (index + 1)} of ${slidesData.length}`;
+        const sizeEl = document.getElementById('current-deck-size');
+        if (sizeEl) sizeEl.textContent = deck.size;
+
+        // Update description
+        const descEl = document.getElementById('current-deck-description');
+        if (descEl) descEl.textContent = deck.description;
+
+        // Update topics chips
+        const topicsEl = document.getElementById('current-deck-topics');
+        if (topicsEl && deck.topics) {
+            let chips = '<strong>Key Topics:</strong> ';
+            deck.topics.forEach(t => {
+                chips += `<span class="topic-chip">${t}</span> `;
+            });
+            topicsEl.innerHTML = chips;
+        }
+
+        // Update related lessons
+        const lessonsEl = document.getElementById('current-deck-lessons');
+        if (lessonsEl) {
+            if (deck.related_lessons && deck.related_lessons.length > 0) {
+                const links = deck.related_lessons.map(rl => `<a href="../lesson${rl.num}/">Lesson ${rl.num} (${rl.title})</a>`);
+                lessonsEl.innerHTML = `<span>Related Lessons: ${links.join(' · ')}</span>`;
+                lessonsEl.style.display = 'block';
+            } else {
+                lessonsEl.style.display = 'none';
+            }
+        }
+
+        // Update action links
+        const newTabBtn = document.getElementById('open-new-tab-btn');
+        if (newTabBtn) newTabBtn.href = deck.filename;
+        const downloadBtn = document.getElementById('download-btn');
+        if (downloadBtn) {
+            downloadBtn.href = deck.filename;
+            downloadBtn.setAttribute('download', deck.filename);
+        }
+
+        // Update selector dropdown
+        const selector = document.getElementById('slide-selector');
+        if (selector && selector.value !== filename) {
+            selector.value = filename;
+        }
+
+        // Update prev/next button states
+        const prevBtn = document.getElementById('prev-deck-btn');
+        if (prevBtn) prevBtn.disabled = (index === 0);
+        const nextBtn = document.getElementById('next-deck-btn');
+        if (nextBtn) nextBtn.disabled = (index === slidesData.length - 1);
+
+        // Update pill tabs active state
+        document.querySelectorAll('.deck-pill-btn').forEach(btn => {
+            if (btn.getAttribute('data-filename') === filename) {
+                btn.classList.add('active');
+                btn.scrollIntoView({ behavior: 'smooth', inline: 'nearest', block: 'nearest' });
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        // Update active highlight on catalog card
+        document.querySelectorAll('.slide-deck-card').forEach(card => {
+            if (card.getAttribute('data-filename') === filename) {
+                card.classList.add('is-active-deck');
+            } else {
+                card.classList.remove('is-active-deck');
+            }
+        });
+
+        // Update URL query parameter without page reload
+        const url = new URL(window.location);
+        url.searchParams.set('deck', filename);
+        window.history.replaceState({}, '', url);
+    }
+
+    function navPrevDeck() {
+        if (currentSlideIndex > 0) {
+            switchSlideDeck(slidesData[currentSlideIndex - 1].filename);
+        }
+    }
+
+    function navNextDeck() {
+        if (currentSlideIndex < slidesData.length - 1) {
+            switchSlideDeck(slidesData[currentSlideIndex + 1].filename);
+        }
+    }
+
+    function cycleViewerHeight() {
+        const wrapper = document.getElementById('pdf-frame-wrapper');
+        const btn = document.getElementById('height-toggle-btn');
+        if (!wrapper) return;
+
+        if (currentHeightMode === 'standard') {
+            wrapper.classList.remove('compact');
+            wrapper.classList.add('tall');
+            currentHeightMode = 'tall';
+            if (btn) btn.textContent = '↕ Tall (940px)';
+        } else if (currentHeightMode === 'tall') {
+            wrapper.classList.remove('tall');
+            wrapper.classList.add('compact');
+            currentHeightMode = 'compact';
+            if (btn) btn.textContent = '↕ Compact (640px)';
+        } else {
+            wrapper.classList.remove('compact', 'tall');
+            currentHeightMode = 'standard';
+            if (btn) btn.textContent = '↕ Height';
+        }
+    }
+
+    function toggleFullscreen() {
+        const container = document.getElementById('viewer-container');
+        if (!document.fullscreenElement) {
+            if (container.requestFullscreen) {
+                container.requestFullscreen();
+            } else if (container.webkitRequestFullscreen) {
+                container.webkitRequestFullscreen();
+            }
+            document.getElementById('fullscreen-btn').textContent = '✕ Exit';
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+            document.getElementById('fullscreen-btn').textContent = '⛶ Fullscreen';
+        }
+    }
+
+    document.addEventListener('fullscreenchange', () => {
+        const btn = document.getElementById('fullscreen-btn');
+        if (btn) {
+            btn.textContent = document.fullscreenElement ? '✕ Exit' : '⛶ Fullscreen';
+        }
+    });
+
+    function filterByCategory(category) {
+        // Update active tab styling
+        document.querySelectorAll('.category-tab').forEach(tab => {
+            if (tab.getAttribute('data-cat') === category) {
+                tab.classList.add('active');
+            } else {
+                tab.classList.remove('active');
+            }
+        });
+
+        // Filter switcher pills
+        document.querySelectorAll('.deck-pill-btn').forEach(pill => {
+            const pillCat = pill.getAttribute('data-cat');
+            if (category === 'All' || pillCat === category) {
+                pill.style.display = 'inline-flex';
+            } else {
+                pill.style.display = 'none';
+            }
+        });
+
+        // Filter catalog cards
+        let visibleCount = 0;
+        document.querySelectorAll('.slide-deck-card').forEach(card => {
+            const cardCat = card.getAttribute('data-cat');
+            if (category === 'All' || cardCat === category) {
+                card.style.display = 'flex';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        const countLabel = document.getElementById('catalog-count-label');
+        if (countLabel) {
+            countLabel.textContent = `${visibleCount} Decks (${category})`;
+        }
+    }
+
+    // Check URL parameter or hash on initial load
+    window.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const deckParam = urlParams.get('deck');
+        if (deckParam) {
+            switchSlideDeck(deckParam);
+        } else if (window.location.hash) {
+            const hash = window.location.hash.replace('#', '');
+            const matched = slidesData.find(s => s.id === hash || s.filename === hash);
+            if (matched) {
+                switchSlideDeck(matched.filename);
+            } else {
+                switchSlideDeck(slidesData[0].filename);
+            }
+        } else {
+            switchSlideDeck(slidesData[0].filename);
+        }
+    });
+</script>
+
+            </section>
+        </div>
+
+        <footer id="footer-container">
+            <h3>Credits &amp; Self-Study Resources</h3>
+            <p>
+                The JavaScript examples and tutorials are credited to the original repository author. Presentation slide decks and viva questions are curated for active recall and exam preparation.
+            </p>
+            <p>
+                <strong>Quick Links:</strong>
+                <ul>
+                    <li><a href="../slides/">In-Webpage Study Slides &amp; Playbooks Viewer</a></li>
+                    <li><a href="https://www.mongodb.com/docs/manual/" target="_blank" rel="noopener">Official MongoDB Documentation</a></li>
+                    <li><a href="https://www.mongodb.com/docs/drivers/node/current/" target="_blank" rel="noopener">MongoDB Node.js Driver Guide</a></li>
+                </ul>
+            </p>
+        </footer>
+    </main>
+
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script>
+        // Copy code helper
+        function copyCode(btn) {
+            const wrapper = btn.closest('.code-wrapper');
+            const codeEl = wrapper ? wrapper.querySelector('code') : null;
+            if (codeEl) {
+                navigator.clipboard.writeText(codeEl.innerText).then(() => {
+                    const orig = btn.innerText;
+                    btn.innerText = '✓ Copied';
+                    btn.style.color = 'var(--primary)';
+                    btn.style.borderColor = 'var(--primary)';
+                    setTimeout(() => {
+                        btn.innerText = orig;
+                        btn.style.color = '';
+                        btn.style.borderColor = '';
+                    }, 2000);
+                }).catch(() => {
+                    btn.innerText = 'Error';
+                });
+            }
+        }
+
+        // Theme toggle logic
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme') || 'dark';
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            updateThemeButton(next);
+        }
+
+        function updateThemeButton(theme) {
+            const btn = document.getElementById('theme-toggle-btn');
+            if (btn) {
+                btn.textContent = theme === 'dark' ? '🌙' : '☀️';
+            }
+        }
+
+        // Collapsible sidebar logic
+        function toggleSidebar() {
+            document.body.classList.toggle('sidebar-collapsed');
+            const isCollapsed = document.body.classList.contains('sidebar-collapsed');
+            localStorage.setItem('sidebar_collapsed', isCollapsed);
+        }
+
+        // Initialize saved preferences
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            updateThemeButton(savedTheme);
+
+            if (localStorage.getItem('sidebar_collapsed') === 'true') {
+                document.body.classList.add('sidebar-collapsed');
+            }
+        })();
+    </script>
+</body>
+</html>

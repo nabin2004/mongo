@@ -238,3 +238,163 @@ viva_content = {
         ]
     }
 }
+
+slides_data = [
+    {
+        "id": "crud-survival-guide",
+        "deck_number": 1,
+        "icon": "⚡",
+        "category": "CRUD & Core",
+        "filename": "MongoDB_CRUD_Survival_Guide.pdf",
+        "title": "MongoDB CRUD Survival Guide",
+        "description": "Essential foundational playbook for database creation, collections, document insertion, and robust query patterns.",
+        "topics": ["insertOne / insertMany", "find() queries", "updateOne / updateMany", "delete filters", "Cursor methods"],
+        "highlights": [
+            "Implicit database & collection creation gotchas",
+            "updateOne vs updateMany behavioral divergence",
+            "Projection mechanics & cursor iteration optimization"
+        ],
+        "size": "10.6 MB",
+        "related_lessons": [
+            {"num": "1", "title": "Basic Structure & CRUD"},
+            {"num": "5", "title": "Projection, Sort, Skip, Limit"}
+        ]
+    },
+    {
+        "id": "operator-playbook",
+        "deck_number": 2,
+        "icon": "🔍",
+        "category": "Operators & Arrays",
+        "filename": "MongoDB_Operator_Playbook.pdf",
+        "title": "MongoDB Operator Playbook",
+        "description": "Comprehensive reference guide to comparison, logical, and element query operators for high-precision filtering.",
+        "topics": ["$gt / $gte / $lt / $lte", "$in / $nin", "$and / $or / $nor", "$exists / $type", "Regex Filters"],
+        "highlights": [
+            "$in array syntax traps vs single value mistakes",
+            "Short-circuit evaluation in compound $or queries",
+            "$exists: false vs null field nuances"
+        ],
+        "size": "10.9 MB",
+        "related_lessons": [
+            {"num": "2", "title": "Comparison Operators"},
+            {"num": "3", "title": "Logical Operators"}
+        ]
+    },
+    {
+        "id": "array-query-playbook",
+        "deck_number": 3,
+        "icon": "🧩",
+        "category": "Operators & Arrays",
+        "filename": "MongoDB_Array_Query_Playbook.pdf",
+        "title": "MongoDB Array Query Playbook",
+        "description": "Mastering nested arrays, multidimensional objects, subdocuments, and targeted document querying in MongoDB.",
+        "topics": ["$all", "$elemMatch", "$size", "Positional operator $", "Dot notation"],
+        "highlights": [
+            "Why simple dot notation fails on multi-criteria array objects",
+            "$elemMatch exact mechanics for subdocument arrays",
+            "$size exact match limits & indexing workarounds"
+        ],
+        "size": "14.9 MB",
+        "related_lessons": [
+            {"num": "4", "title": "Array & Embedded Document Queries"}
+        ]
+    },
+    {
+        "id": "update-operator-dossier",
+        "deck_number": 4,
+        "icon": "🔄",
+        "category": "CRUD & Core",
+        "filename": "MongoDB_Update_Operator_Dossier.pdf",
+        "title": "MongoDB Update Operator Dossier",
+        "description": "Field modifications, array mutations, upserts, and atomic state transitions without data corruption.",
+        "topics": ["$set / $unset", "$inc / $mul", "$push / $pull / $pop", "$addToSet / $each", "upsert: true"],
+        "highlights": [
+            "Accidental document replacement without $set",
+            "$addToSet deduplication vs $push append behavior",
+            "Array filters with $[identifier] for selective sub-updates"
+        ],
+        "size": "8.9 MB",
+        "related_lessons": [
+            {"num": "6", "title": "Update Operators"}
+        ]
+    },
+    {
+        "id": "schema-dossier",
+        "deck_number": 5,
+        "icon": "🛡️",
+        "category": "Schema & Architecture",
+        "filename": "MongoDB_Schema_Dossier.pdf",
+        "title": "MongoDB Schema Dossier",
+        "description": "JSON schema validation, strict typing rules, data integrity enforcement, and ordered vs unordered execution.",
+        "topics": ["$jsonSchema", "bsonType validation", "required properties", "validationLevel", "ordered inserts"],
+        "highlights": [
+            "ordered: true failure rollback behavior vs ordered: false",
+            "Strict bsonType validation with regex patterns",
+            "validationAction: error vs warn production tradeoffs"
+        ],
+        "size": "18.0 MB",
+        "related_lessons": [
+            {"num": "7", "title": "Schema Validation (Part 1)"},
+            {"num": "8", "title": "Schema Validation (Part 2) & Ordered Inserts"}
+        ]
+    },
+    {
+        "id": "aggregation-mastery",
+        "deck_number": 6,
+        "icon": "📊",
+        "category": "Aggregation",
+        "filename": "MongoDB_Aggregation_Mastery.pdf",
+        "title": "MongoDB Aggregation Mastery",
+        "description": "Comprehensive pipeline stages from basic transforms and joins to complex multi-stage analytical queries.",
+        "topics": ["$match & $project", "$group & accumulators", "$unwind arrays", "$lookup joins", "$bucketAuto", "$facet"],
+        "highlights": [
+            "Pipeline order optimization ($match first for early filter)",
+            "$lookup produce array gotcha requiring $unwind",
+            "RAM limit (100MB) per stage & allowDiskUse option"
+        ],
+        "size": "18.9 MB",
+        "related_lessons": [
+            {"num": "9", "title": "Aggregation Framework (Basic)"},
+            {"num": "10", "title": "Aggregation: Unwind & Group"},
+            {"num": "11", "title": "Aggregation: Buckets & Sets"},
+            {"num": "12", "title": "Aggregation: $lookup (Joins)"}
+        ]
+    },
+    {
+        "id": "interview-dossier",
+        "deck_number": 7,
+        "icon": "🎯",
+        "category": "Viva & Interviews",
+        "filename": "MongoDB_Interview_Dossier.pdf",
+        "title": "MongoDB Interview Dossier",
+        "description": "Curated high-yield architectural, indexing, replication, and performance questions for technical rounds.",
+        "topics": ["Indexing (B-Tree, compound, multikey)", "Execution stats (IXSCAN vs COLLSCAN)", "WiredTiger storage", "Replica sets & Sharding"],
+        "highlights": [
+            "Index ESR rule (Equality, Sort, Range) design principles",
+            "Covered queries (0 document scan from disk)",
+            "Write concerns, read concerns, and replica election failovers"
+        ],
+        "size": "9.4 MB",
+        "related_lessons": [
+            {"num": "13", "title": "Indexes and Performance"}
+        ]
+    },
+    {
+        "id": "viva-blueprint",
+        "deck_number": 8,
+        "icon": "🎓",
+        "category": "Viva & Interviews",
+        "filename": "MongoDB_Viva_Blueprint.pdf",
+        "title": "MongoDB Viva Blueprint",
+        "description": "High-impact active recall blueprint designed for viva exams, oral board questions, and rapid oral review.",
+        "topics": ["Examiner gotchas & traps", "Key definitions & syntax", "BSON vs JSON", "ACID & Transactions", "C-D-C-D hierarchy"],
+        "highlights": [
+            "BSON binary serialization vs JSON text differences",
+            "Multi-document ACID transactions via sessions",
+            "Examiner trick questions on null vs missing keys"
+        ],
+        "size": "11.1 MB",
+        "related_lessons": []
+    }
+]
+
