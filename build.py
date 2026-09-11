@@ -72,7 +72,7 @@ def generate_html_wrapper(title, content_html, active_lesson_num=None, is_root=F
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <!-- Prism.css for syntax highlighting -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="{base_path}styles.css">
+    <link rel="stylesheet" href="{base_path}styles.css?v=20260911_v5">
 </head>
 <body>
     <!-- Floating expand button when sidebar is collapsed -->
