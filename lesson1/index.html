@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Structure & CRUD - MongoDB Learning Site</title>
+    <!-- Pico.css for minimalistic styling -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <!-- Prism.css for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <main class="container">
+        <div class="grid">
+            <aside>
+                <nav>
+                    <h3>Lessons</h3>
+                    <div id="nav-container">
+                        <ul>
+<li><a href="../index.html" class="">Home</a></li>
+<li><a href="../lesson1/" class="active" style="font-weight: bold;">Basic Structure & CRUD</a></li>
+<li><a href="../lesson2/">Comparison Operators</a></li>
+<li><a href="../lesson3/">Logical Operators</a></li>
+<li><a href="../lesson4/">Array & Embedded Document Queries</a></li>
+<li><a href="../lesson5/">Projection, Sort, Skip, Limit</a></li>
+<li><a href="../lesson6/">Update Operators</a></li>
+<li><a href="../lesson7/">Schema Validation (Part 1)</a></li>
+<li><a href="../lesson8/">Schema Validation (Part 2) & Ordered Inserts</a></li>
+<li><a href="../lesson9/">Aggregation Framework (Basic)</a></li>
+<li><a href="../lesson10/">Aggregation: Unwind & Group</a></li>
+<li><a href="../lesson11/">Aggregation: Buckets & Sets</a></li>
+<li><a href="../lesson12/">Aggregation: $lookup (Joins)</a></li>
+<li><a href="../lesson13/">Indexes and Performance</a></li>
+</ul>
+                    </div>
+                </nav>
+            </aside>
+
+            <section id="content-container">
+
+    <article>
+        <header>
+            <h2>Viva Prep: Basic Structure & CRUD</h2>
+            <p><strong>Source File:</strong> <code>1structure.js</code></p>
+        </header>
+
+        <section style="margin-top: 2rem;">
+            <h3>Dataset Context</h3>
+            <p>The queries below run against this collection structure:</p>
+            <pre><code class="language-json">db.products.insertMany([{name:&quot;Tv&quot;, price:50000}, {name:&quot;Mobile&quot;, price:20000}])</code></pre>
+        </section>
+
+        <section style="margin-top: 2rem;">
+            <h3>Raw Queries</h3>
+            <pre><code class="language-mongodb">/*
+cluster
+    database
+        collection
+            document =&gt; individual data
+
+
+to access database from terminal
+mongosh
+
+1. to see all database
+    show dbs
+
+2. to create database
+    use &lt;databaseName&gt; =&gt; use daraz
+
+3. to create collection
+    db.createCollection(&quot;&lt;collectionName&gt;&quot;)
+
+4. to see all collection
+    show collections
+
+5. naming convention
+    databaseName =&gt; singular
+    collectionName =&gt; plural
+
+daraz
+    products
+    users
+
+
+create document
+db.products.insertOne({name:&quot;laptop&quot;, price:100000})
+
+
+read document
+db.products.find()
+
+
+update document
+db.products.updateOne(filter, updatedata) =&gt; updateOne({name:&quot;laptop&quot;}, {$set:{price:120000}})
+db.products.updateOne({name:&quot;Tv&quot;}, {$set:{name:&quot;tv&quot;, price:120000, quantity:10}})
+
+delete document
+db.products.deleteOne(filter)
+
+db.products.deleteOne({name:&quot;Mobile&quot;})
+*/
+
+/*
+
+Product.create(data)
+Product.find()
+Product.findById(id)
+Product.findByIdAndUpdate(id, data)=&gt;(filter, data)
+Product.findByIdAndDelete(id)
+
+
+//difference between sql and nosql
+
+*/</code></pre>
+        </section>
+    <section style="margin-top: 2rem;"><h3>Deep Dive Concepts</h3>
+            <details style="margin-bottom: 1rem;" open>
+                <summary><strong>Database & Collection Creation</strong></summary>
+                <div style="padding-left: 1rem; border-left: 3px solid var(--primary); margin-top: 1rem;">
+                    <p><strong>The Plain-English Breakdown:</strong> MongoDB is a NoSQL database organized into Clusters -> Databases -> Collections -> Documents. You create databases with 'use' and collections implicitly by inserting or explicitly with createCollection.</p>
+                    <p><strong>Real-World Use Case:</strong> Setting up the initial schema-less structure for a new application.</p>
+                    <p><strong>The "Gotcha" (Common Pitfalls):</strong> <mark>Databases and collections aren't actually created on disk until the first document is inserted.</mark></p>
+                    <p><strong>Memorization Hook:</strong> <em>Cluster > Database > Collection > Document (C-D-C-D)</em></p>
+                </div>
+            </details>
+
+            <details style="margin-bottom: 1rem;" open>
+                <summary><strong>Basic CRUD Operations</strong></summary>
+                <div style="padding-left: 1rem; border-left: 3px solid var(--primary); margin-top: 1rem;">
+                    <p><strong>The Plain-English Breakdown:</strong> insertOne/insertMany add documents. find() retrieves them. updateOne/updateMany modify existing documents, and deleteOne/deleteMany remove them.</p>
+                    <p><strong>Real-World Use Case:</strong> Standard data manipulation for any user-facing app.</p>
+                    <p><strong>The "Gotcha" (Common Pitfalls):</strong> <mark>updateOne only updates the FIRST document matching the filter, even if multiple match.</mark></p>
+                    <p><strong>Memorization Hook:</strong> <em>CRUD: Create (insert), Read (find), Update (update), Delete (delete).</em></p>
+                </div>
+            </details>
+            </section>
+        <section style="margin-top: 2rem; background: var(--card-sectionning-background-color); padding: 1.5rem; border-radius: var(--border-radius);">
+            <h3>Examiner Q&A Simulator</h3>
+            <p><small>Click a question to reveal the answer.</small></p>
+
+            <details style="margin-bottom: 0.5rem;">
+                <summary><strong>Examiner: What is the difference between updateOne and updateMany?</strong></summary>
+                <div style="padding: 1rem; background: var(--background-color); margin-top: 0.5rem; border-radius: var(--border-radius);">
+                    updateOne modifies only the first document that matches the filter, whereas updateMany modifies all documents matching the filter.
+                </div>
+            </details>
+
+            <details style="margin-bottom: 0.5rem;">
+                <summary><strong>Examiner: What happens if you try to use a database that doesn't exist?</strong></summary>
+                <div style="padding: 1rem; background: var(--background-color); margin-top: 0.5rem; border-radius: var(--border-radius);">
+                    MongoDB will switch to it in memory, but it won't be saved to disk until you insert a document into one of its collections.
+                </div>
+            </details>
+            </section>
+    </article>
+            </section>
+        </div>
+
+        <footer id="footer-container" style="margin-top: 3rem; border-top: 1px solid var(--muted-border-color); padding-top: 1.5rem;">
+            <h3>Credits & Resources</h3>
+            <p>
+                The JavaScript examples and tutorials provided here are credited to my friend, the original author of the repository.
+            </p>
+            <p>
+                <strong>Further Self-Study Resources:</strong>
+                <ul>
+                    <li><a href="https://www.mongodb.com/docs/manual/" target="_blank">Official MongoDB Manual</a></li>
+                    <li><a href="https://www.mongodb.com/docs/drivers/node/current/" target="_blank">MongoDB Node.js Driver Documentation</a></li>
+                </ul>
+            </p>
+        </footer>
+    </main>
+
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+</body>
+</html>

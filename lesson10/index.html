@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aggregation: Unwind & Group - MongoDB Learning Site</title>
+    <!-- Pico.css for minimalistic styling -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <!-- Prism.css for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <main class="container">
+        <div class="grid">
+            <aside>
+                <nav>
+                    <h3>Lessons</h3>
+                    <div id="nav-container">
+                        <ul>
+<li><a href="../index.html" class="">Home</a></li>
+<li><a href="../lesson1/">Basic Structure & CRUD</a></li>
+<li><a href="../lesson2/">Comparison Operators</a></li>
+<li><a href="../lesson3/">Logical Operators</a></li>
+<li><a href="../lesson4/">Array & Embedded Document Queries</a></li>
+<li><a href="../lesson5/">Projection, Sort, Skip, Limit</a></li>
+<li><a href="../lesson6/">Update Operators</a></li>
+<li><a href="../lesson7/">Schema Validation (Part 1)</a></li>
+<li><a href="../lesson8/">Schema Validation (Part 2) & Ordered Inserts</a></li>
+<li><a href="../lesson9/">Aggregation Framework (Basic)</a></li>
+<li><a href="../lesson10/" class="active" style="font-weight: bold;">Aggregation: Unwind & Group</a></li>
+<li><a href="../lesson11/">Aggregation: Buckets & Sets</a></li>
+<li><a href="../lesson12/">Aggregation: $lookup (Joins)</a></li>
+<li><a href="../lesson13/">Indexes and Performance</a></li>
+</ul>
+                    </div>
+                </nav>
+            </aside>
+
+            <section id="content-container">
+
+    <article>
+        <header>
+            <h2>Viva Prep: Aggregation: Unwind & Group</h2>
+            <p><strong>Source File:</strong> <code>10day.js</code></p>
+        </header>
+
+        <section style="margin-top: 2rem;">
+            <h3>Raw Queries</h3>
+            <pre><code class="language-mongodb">/*
+$addfields
+
+db.students.aggregate([
+  {
+    $addFields: {
+      full_name: {
+        $concat: [&quot;$name&quot;, &quot; &quot;, &quot;$surname&quot;]
+      }
+    }
+  }
+])
+
+$unwind
+db.orders.aggregate([
+  {
+    $unwind: {
+      path: &quot;$products&quot;,
+      preserveNullAndEmptyArrays: true
+    }
+  }
+])
+
+$group
+db.teachers.aggregate([
+  {
+    $group: {
+      _id: &quot;$gender&quot;,
+      names: {
+        $push: &quot;$name&quot;
+      },
+      data: { $push: &quot;$$ROOT&quot; },
+      totalNoOfData: { $sum: 1 },
+      maxAge: { $max: &quot;$age&quot; },
+      minAge: { $min: &quot;$age&quot; },
+      avgAge: { $avg: &quot;$age&quot; }
+    }
+  }
+])
+
+
+
+
+
+
+
+
+
+
+
+*/</code></pre>
+        </section>
+    <section style="margin-top: 2rem;"><h3>Deep Dive Concepts</h3>
+            <details style="margin-bottom: 1rem;" open>
+                <summary><strong>$unwind</strong></summary>
+                <div style="padding-left: 1rem; border-left: 3px solid var(--primary); margin-top: 1rem;">
+                    <p><strong>The Plain-English Breakdown:</strong> Deconstructs an array field, outputting a new document for each element of the array. The other fields are duplicated.</p>
+                    <p><strong>Real-World Use Case:</strong> Analyzing tags on blog posts. To count tags, you must first unwind the tags array.</p>
+                    <p><strong>The "Gotcha" (Common Pitfalls):</strong> <mark>If a document has an empty array or null for that field, $unwind removes the document entirely unless you use preserveNullAndEmptyArrays: true.</mark></p>
+                    <p><strong>Memorization Hook:</strong> <em>$unwind explodes an array into multiple documents.</em></p>
+                </div>
+            </details>
+
+            <details style="margin-bottom: 1rem;" open>
+                <summary><strong>$group</strong></summary>
+                <div style="padding-left: 1rem; border-left: 3px solid var(--primary); margin-top: 1rem;">
+                    <p><strong>The Plain-English Breakdown:</strong> Groups documents by a specified _id expression and applies accumulator expressions ($sum, $max).</p>
+                    <p><strong>Real-World Use Case:</strong> Finding the total sales per region, or the maximum age per gender.</p>
+                    <p><strong>The "Gotcha" (Common Pitfalls):</strong> <mark>The _id field in $group is mandatory. It determines what you are grouping BY. If you want to group everything into one result, use _id: null.</mark></p>
+                    <p><strong>Memorization Hook:</strong> <em>_id is the 'GROUP BY' key.</em></p>
+                </div>
+            </details>
+            </section>
+        <section style="margin-top: 2rem; background: var(--card-sectionning-background-color); padding: 1.5rem; border-radius: var(--border-radius);">
+            <h3>Examiner Q&A Simulator</h3>
+            <p><small>Click a question to reveal the answer.</small></p>
+
+            <details style="margin-bottom: 0.5rem;">
+                <summary><strong>Examiner: How do you group all documents in a collection together to find the global average?</strong></summary>
+                <div style="padding: 1rem; background: var(--background-color); margin-top: 0.5rem; border-radius: var(--border-radius);">
+                    You set the _id field in the $group stage to null: { $group: { _id: null, avg: { $avg: '$price' } } }.
+                </div>
+            </details>
+            </section>
+    </article>
+            </section>
+        </div>
+
+        <footer id="footer-container" style="margin-top: 3rem; border-top: 1px solid var(--muted-border-color); padding-top: 1.5rem;">
+            <h3>Credits & Resources</h3>
+            <p>
+                The JavaScript examples and tutorials provided here are credited to my friend, the original author of the repository.
+            </p>
+            <p>
+                <strong>Further Self-Study Resources:</strong>
+                <ul>
+                    <li><a href="https://www.mongodb.com/docs/manual/" target="_blank">Official MongoDB Manual</a></li>
+                    <li><a href="https://www.mongodb.com/docs/drivers/node/current/" target="_blank">MongoDB Node.js Driver Documentation</a></li>
+                </ul>
+            </p>
+        </footer>
+    </main>
+
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+</body>
+</html>

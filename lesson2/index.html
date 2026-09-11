@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparison Operators - MongoDB Learning Site</title>
+    <!-- Pico.css for minimalistic styling -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <!-- Prism.css for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <main class="container">
+        <div class="grid">
+            <aside>
+                <nav>
+                    <h3>Lessons</h3>
+                    <div id="nav-container">
+                        <ul>
+<li><a href="../index.html" class="">Home</a></li>
+<li><a href="../lesson1/">Basic Structure & CRUD</a></li>
+<li><a href="../lesson2/" class="active" style="font-weight: bold;">Comparison Operators</a></li>
+<li><a href="../lesson3/">Logical Operators</a></li>
+<li><a href="../lesson4/">Array & Embedded Document Queries</a></li>
+<li><a href="../lesson5/">Projection, Sort, Skip, Limit</a></li>
+<li><a href="../lesson6/">Update Operators</a></li>
+<li><a href="../lesson7/">Schema Validation (Part 1)</a></li>
+<li><a href="../lesson8/">Schema Validation (Part 2) & Ordered Inserts</a></li>
+<li><a href="../lesson9/">Aggregation Framework (Basic)</a></li>
+<li><a href="../lesson10/">Aggregation: Unwind & Group</a></li>
+<li><a href="../lesson11/">Aggregation: Buckets & Sets</a></li>
+<li><a href="../lesson12/">Aggregation: $lookup (Joins)</a></li>
+<li><a href="../lesson13/">Indexes and Performance</a></li>
+</ul>
+                    </div>
+                </nav>
+            </aside>
+
+            <section id="content-container">
+
+    <article>
+        <header>
+            <h2>Viva Prep: Comparison Operators</h2>
+            <p><strong>Source File:</strong> <code>2query.js</code></p>
+        </header>
+
+        <section style="margin-top: 2rem;">
+            <h3>Dataset Context</h3>
+            <p>The queries below run against this collection structure:</p>
+            <pre><code class="language-json">db.students.insertMany([
+{
+    name: &quot;nitan&quot;,
+    age: 32,
+    city: &quot;kathmandu&quot;,
+    isMarried: false,
+    salary: 50000,
+    hobbies: [&quot;coding&quot;, &quot;reading&quot;]
+},
+{
+    name: &quot;ram&quot;,
+    age: 25,
+    city: &quot;pokhara&quot;,
+    isMarried: true,
+    salary: 35000,
+    hobbies: [&quot;football&quot;, &quot;travel&quot;]
+},
+{
+    name: &quot;hari&quot;,
+    age: 18,
+    city: &quot;lalitpur&quot;,
+    isMarried: false,
+    salary: 20000
+},
+{
+    name: &quot;sita&quot;,
+    age: 29,
+    city: &quot;bhaktapur&quot;,
+    isMarried: true,
+    salary: 45000,
+    hobbies: [&quot;music&quot;]
+},
+{
+    name: &quot;gita&quot;,
+    age: 21,
+    city: &quot;kathmandu&quot;,
+    isMarried: false,
+    salary: 25000
+},
+{
+    name: &quot;john&quot;,
+    age: 35,
+    city: &quot;biratnagar&quot;,
+    isMarried: true,
+    salary: 70000,
+    hobbies: [&quot;gaming&quot;, &quot;travel&quot;]
+},
+{
+    name: &quot;alice&quot;,
+    age: 27,
+    city: &quot;pokhara&quot;,
+    isMarried: false,
+    salary: 40000
+},
+{
+    name: &quot;bob&quot;,
+    age: 15,
+    city: &quot;butwal&quot;,
+    isMarried: false,
+    salary: 10000
+},
+{
+    name: &quot;emma&quot;,
+    age: &quot;24&quot;,
+    city: &quot;dharan&quot;,
+    isMarried: false,
+    salary: 30000
+},
+{
+    name: &quot;david&quot;,
+    city: &quot;janakpur&quot;,
+    isMarried: true,
+    salary: 55000
+},
+{
+    name: &quot;sophia&quot;,
+    age: 42,
+    city: &quot;kathmandu&quot;,
+    salary: 90000
+},
+{
+    name: &quot;mohan&quot;,
+    age: 30,
+    city: &quot;pokhara&quot;,
+    isMarried: true,
+    salary: 60000
+}
+])</code></pre>
+        </section>
+
+        <section style="margin-top: 2rem;">
+            <h3>Raw Queries</h3>
+            <pre><code class="language-mongodb">/*
+
+
+
+comparison operator
+    general search
+        .find({})
+        .find({field: value})=&gt; db.students.find({city: &quot;kathmandu&quot;})
+        .find({name:&quot;nitan&quot;, age:32})
+
+comparison operatios=&gt;operator ko aghadi dollar sign lagauxau
+
+comparision operator
+    general search
+        .find({})
+        .find({name:&quot;nitan&quot;})
+        .find({name:&quot;nitan&quot;, age:32})
+    comparions operators
+        $eq,$ne,$gt,$gte,$lt,$lte,$in , $nin, $mod
+        .find({name:&quot;nitan&quot;})
+        .find({name:{$eq:&quot;nitan&quot;}})
+        .find({name:{$ne:&quot;nitan&quot;}})
+        .find({name:{$in:[&quot;nitan&quot;,&quot;ram&quot;]}})
+        .find({name:{$nin:[&quot;nitan&quot;,&quot;ram&quot;]}})
+        .find({age:{$gt:30}})
+        .find({age:{$gte:30}})
+        .find({age:{$lt:30}})
+        .find({age:{$lte:30}})
+        .find({age:{$gte:12,$lte:25}}) =&gt; range
+        .find({age: { $mod: [5, 0] }}) =&gt; mod with 5 is 0
+
+*/</code></pre>
+        </section>
+    <section style="margin-top: 2rem;"><h3>Deep Dive Concepts</h3>
+            <details style="margin-bottom: 1rem;" open>
+                <summary><strong>Comparison Operators ($gt, $lt, $in, $ne)</strong></summary>
+                <div style="padding-left: 1rem; border-left: 3px solid var(--primary); margin-top: 1rem;">
+                    <p><strong>The Plain-English Breakdown:</strong> These operators allow filtering documents based on specific value comparisons rather than exact matches. $in matches any value in an array.</p>
+                    <p><strong>Real-World Use Case:</strong> Finding users over a certain age ($gte: 18) or products within a price range.</p>
+                    <p><strong>The "Gotcha" (Common Pitfalls):</strong> <mark>$in takes an array of values. Forgetting the brackets (e.g., $in: 'nitan') will result in an error or unexpected behavior.</mark></p>
+                    <p><strong>Memorization Hook:</strong> <em>Prefix with $ for operators: $gt (greater than), $lt (less than), $ne (not equal).</em></p>
+                </div>
+            </details>
+            </section>
+        <section style="margin-top: 2rem; background: var(--card-sectionning-background-color); padding: 1.5rem; border-radius: var(--border-radius);">
+            <h3>Examiner Q&A Simulator</h3>
+            <p><small>Click a question to reveal the answer.</small></p>
+
+            <details style="margin-bottom: 0.5rem;">
+                <summary><strong>Examiner: How would you find students whose age is exactly 25 or 30?</strong></summary>
+                <div style="padding: 1rem; background: var(--background-color); margin-top: 0.5rem; border-radius: var(--border-radius);">
+                    Use the $in operator: { age: { $in: [25, 30] } }
+                </div>
+            </details>
+
+            <details style="margin-bottom: 0.5rem;">
+                <summary><strong>Examiner: Can you use multiple comparison operators on the same field?</strong></summary>
+                <div style="padding: 1rem; background: var(--background-color); margin-top: 0.5rem; border-radius: var(--border-radius);">
+                    Yes, for example { age: { $gte: 18, $lte: 30 } } finds ages between 18 and 30 inclusive.
+                </div>
+            </details>
+            </section>
+    </article>
+            </section>
+        </div>
+
+        <footer id="footer-container" style="margin-top: 3rem; border-top: 1px solid var(--muted-border-color); padding-top: 1.5rem;">
+            <h3>Credits & Resources</h3>
+            <p>
+                The JavaScript examples and tutorials provided here are credited to my friend, the original author of the repository.
+            </p>
+            <p>
+                <strong>Further Self-Study Resources:</strong>
+                <ul>
+                    <li><a href="https://www.mongodb.com/docs/manual/" target="_blank">Official MongoDB Manual</a></li>
+                    <li><a href="https://www.mongodb.com/docs/drivers/node/current/" target="_blank">MongoDB Node.js Driver Documentation</a></li>
+                </ul>
+            </p>
+        </footer>
+    </main>
+
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+</body>
+</html>

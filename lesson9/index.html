@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aggregation Framework (Basic) - MongoDB Learning Site</title>
+    <!-- Pico.css for minimalistic styling -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <!-- Prism.css for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <main class="container">
+        <div class="grid">
+            <aside>
+                <nav>
+                    <h3>Lessons</h3>
+                    <div id="nav-container">
+                        <ul>
+<li><a href="../index.html" class="">Home</a></li>
+<li><a href="../lesson1/">Basic Structure & CRUD</a></li>
+<li><a href="../lesson2/">Comparison Operators</a></li>
+<li><a href="../lesson3/">Logical Operators</a></li>
+<li><a href="../lesson4/">Array & Embedded Document Queries</a></li>
+<li><a href="../lesson5/">Projection, Sort, Skip, Limit</a></li>
+<li><a href="../lesson6/">Update Operators</a></li>
+<li><a href="../lesson7/">Schema Validation (Part 1)</a></li>
+<li><a href="../lesson8/">Schema Validation (Part 2) & Ordered Inserts</a></li>
+<li><a href="../lesson9/" class="active" style="font-weight: bold;">Aggregation Framework (Basic)</a></li>
+<li><a href="../lesson10/">Aggregation: Unwind & Group</a></li>
+<li><a href="../lesson11/">Aggregation: Buckets & Sets</a></li>
+<li><a href="../lesson12/">Aggregation: $lookup (Joins)</a></li>
+<li><a href="../lesson13/">Indexes and Performance</a></li>
+</ul>
+                    </div>
+                </nav>
+            </aside>
+
+            <section id="content-container">
+
+    <article>
+        <header>
+            <h2>Viva Prep: Aggregation Framework (Basic)</h2>
+            <p><strong>Source File:</strong> <code>9day.js</code></p>
+        </header>
+
+        <section style="margin-top: 2rem;">
+            <h3>Raw Queries</h3>
+            <pre><code class="language-mongodb">/*
+Aggregation
+$match = same as find() query
+
+db.teachers.aggregate([{$match: {}}])
+db.teachers.aggregate([{$match: {name: &quot;A&quot;}}])
+
+$sort
+db.teachers.aggregate([{$match: {}}, {$sort: {name: 1, age: -1}}]) // 1 for ascending order and -1 for descending order,{}])
+
+$limit
+db.teachers.aggregate([{$match: {}}, {$sort: {name: 1}}, {$limit: 4}]) // 1 for ascending order and -1 for descending order,{}])
+
+$skip
+db.teachers.aggregate([{$match: {}}, {$skip: 2}]) // 1 for ascending order and -1 for descending order,{}])
+db.teachers.aggregate([{$match: {}}, {$limit: 3}, {$skip: 2}]) // 1 for ascending order and -1 for descending order,{}])
+
+$PROJECT
+db.students.aggregate([{$match: {}}, {$project: {name: 1}}])
+db.students.aggregate([{$match: {}}, {$project: {name: 1, _id: 0}}]) // this will not show _id field
+db.students.aggregate([{$match: {}}, {$project: {name: 1, student_age: &quot;$age&quot;}}]) // this will show name and country field but not _id field
+db.students.aggregate([
+  {
+    $match: {}
+  },
+  {
+    $project: {
+      name: 1,
+      student_age: &quot;$age&quot;,
+      total_score: {
+        $add: [
+          &quot;$scores.math&quot;,
+          &quot;$scores.english&quot;,
+          &quot;$scores.science&quot;
+        ]
+      }
+    }
+  }
+])
+
+db.students.aggregate([
+  {
+    $match: {}
+  },
+  {
+    $project: {
+      _id: 0,
+      name: 1,
+      country: 1,
+      student_age: &quot;$age&quot;,
+      total_score: {
+        $add: [
+          &quot;$scores.math&quot;,
+          &quot;$scores.english&quot;,
+          &quot;$scores.science&quot;
+        ]
+      },
+      average_score: {
+        $avg: [
+          &quot;$scores.math&quot;,
+          &quot;$scores.english&quot;,
+          &quot;$scores.science&quot;
+        ]
+      }
+    }
+  }
+])
+
+db.students.aggregate([
+  {
+    $match: {}
+  },
+  {
+    $project: {
+      _id: 0,
+      name: 1,
+      country: 1,
+      student_age: &quot;$age&quot;,
+
+      total_score: {
+        $add: [
+          &quot;$scores.math&quot;,
+          &quot;$scores.english&quot;,
+          &quot;$scores.science&quot;
+        ]
+      },
+
+      average_score: {
+        $avg: [
+          &quot;$scores.math&quot;,
+          &quot;$scores.english&quot;,
+          &quot;$scores.science&quot;
+        ]
+      },
+
+      min_score: {
+        $min: [
+          &quot;$scores.math&quot;,
+          &quot;$scores.english&quot;,
+          &quot;$scores.science&quot;
+        ]
+      },
+
+      max_score: {
+        $max: [
+          &quot;$scores.math&quot;,
+          &quot;$scores.english&quot;,
+          &quot;$scores.science&quot;
+        ]
+      }
+    }
+  }
+])
+
+
+db.students.aggregate([
+  {
+    $match: {}
+  },
+  {
+    $project: {
+      _id: 0,
+      name: 1,
+      country: 1,
+      student_age: &quot;$age&quot;,
+
+      total_score: {
+        $add: [
+          &quot;$scores.math&quot;,
+          &quot;$scores.english&quot;,
+          &quot;$scores.science&quot;
+        ]
+      },
+
+      average_score: {
+        $avg: [
+          &quot;$scores.math&quot;,
+          &quot;$scores.english&quot;,
+          &quot;$scores.science&quot;
+        ]
+      },
+
+      min_score: {
+        $min: [
+          &quot;$scores.math&quot;,
+          &quot;$scores.english&quot;,
+          &quot;$scores.science&quot;
+        ]
+      },
+
+      max_score: {
+        $max: [
+          &quot;$scores.math&quot;,
+          &quot;$scores.english&quot;,
+          &quot;$scores.science&quot;
+        ]
+      }
+    }
+  }
+])
+
+db.students.aggregate([
+  {
+    $match: {}
+  },
+  {
+    $project: {
+      _id: 0,
+      name: 1,
+      country: 1,
+      student_age: &quot;$age&quot;,
+
+      total_score: {
+        $add: [
+          &quot;$scores.math&quot;,
+          &quot;$scores.english&quot;,
+          &quot;$scores.science&quot;
+        ]
+      },
+
+      average_score: {
+        $avg: [
+          &quot;$scores.math&quot;,
+          &quot;$scores.english&quot;,
+          &quot;$scores.science&quot;
+        ]
+      },
+
+      min_score: {
+        $min: [
+          &quot;$scores.math&quot;,
+          &quot;$scores.english&quot;,
+          &quot;$scores.science&quot;
+        ]
+      },
+
+      max_score: {
+        $max: [
+          &quot;$scores.math&quot;,
+          &quot;$scores.english&quot;,
+          &quot;$scores.science&quot;
+        ]
+      },
+
+      full_name: {
+        $concat: [&quot;$name&quot;, &quot; &quot;, &quot;$surname&quot;]
+      },
+
+      percentage: {
+        $multiply: [
+          {
+            $divide: [
+              {
+                $add: [
+                  &quot;$scores.math&quot;,
+                  &quot;$scores.english&quot;,
+                  &quot;$scores.science&quot;
+                ]
+              },
+              300
+            ]
+          },
+          100
+        ]
+      }
+    }
+  }
+])
+
+
+
+*/</code></pre>
+        </section>
+    <section style="margin-top: 2rem;"><h3>Deep Dive Concepts</h3>
+            <details style="margin-bottom: 1rem;" open>
+                <summary><strong>Aggregation Pipeline ($match, $project)</strong></summary>
+                <div style="padding-left: 1rem; border-left: 3px solid var(--primary); margin-top: 1rem;">
+                    <p><strong>The Plain-English Breakdown:</strong> The aggregation pipeline processes documents through stages. $match filters early, $project reshapes the output.</p>
+                    <p><strong>Real-World Use Case:</strong> Complex reporting, calculating average scores, or transforming data shapes before sending to the client.</p>
+                    <p><strong>The "Gotcha" (Common Pitfalls):</strong> <mark>Always put $match as early as possible. If you project or group first, you lose the ability to use indexes, causing a full collection scan.</mark></p>
+                    <p><strong>Memorization Hook:</strong> <em>Pipeline is a factory assembly line. Filter ($match) before you assemble ($project).</em></p>
+                </div>
+            </details>
+
+            <details style="margin-bottom: 1rem;" open>
+                <summary><strong>Arithmetic Expressions ($add, $avg)</strong></summary>
+                <div style="padding-left: 1rem; border-left: 3px solid var(--primary); margin-top: 1rem;">
+                    <p><strong>The Plain-English Breakdown:</strong> Operators used within $project or $group to perform math on fields.</p>
+                    <p><strong>Real-World Use Case:</strong> Calculating a total score from individual subject scores.</p>
+                    <p><strong>The "Gotcha" (Common Pitfalls):</strong> <mark>In projection arithmetic, field names MUST be prefixed with a $ (e.g., '$scores.math') to indicate you want the field's value, not the literal string.</mark></p>
+                    <p><strong>Memorization Hook:</strong> <em>Prefix with $ to get the value in aggregations.</em></p>
+                </div>
+            </details>
+            </section>
+        <section style="margin-top: 2rem; background: var(--card-sectionning-background-color); padding: 1.5rem; border-radius: var(--border-radius);">
+            <h3>Examiner Q&A Simulator</h3>
+            <p><small>Click a question to reveal the answer.</small></p>
+
+            <details style="margin-bottom: 0.5rem;">
+                <summary><strong>Examiner: Why is the order of stages important in an aggregation pipeline?</strong></summary>
+                <div style="padding: 1rem; background: var(--background-color); margin-top: 0.5rem; border-radius: var(--border-radius);">
+                    Because each stage transforms the data for the next. Filtering with $match first drastically reduces the dataset size and utilizes indexes, improving performance.
+                </div>
+            </details>
+            </section>
+    </article>
+            </section>
+        </div>
+
+        <footer id="footer-container" style="margin-top: 3rem; border-top: 1px solid var(--muted-border-color); padding-top: 1.5rem;">
+            <h3>Credits & Resources</h3>
+            <p>
+                The JavaScript examples and tutorials provided here are credited to my friend, the original author of the repository.
+            </p>
+            <p>
+                <strong>Further Self-Study Resources:</strong>
+                <ul>
+                    <li><a href="https://www.mongodb.com/docs/manual/" target="_blank">Official MongoDB Manual</a></li>
+                    <li><a href="https://www.mongodb.com/docs/drivers/node/current/" target="_blank">MongoDB Node.js Driver Documentation</a></li>
+                </ul>
+            </p>
+        </footer>
+    </main>
+
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+</body>
+</html>

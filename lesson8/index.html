@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schema Validation (Part 2) & Ordered Inserts - MongoDB Learning Site</title>
+    <!-- Pico.css for minimalistic styling -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <!-- Prism.css for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <main class="container">
+        <div class="grid">
+            <aside>
+                <nav>
+                    <h3>Lessons</h3>
+                    <div id="nav-container">
+                        <ul>
+<li><a href="../index.html" class="">Home</a></li>
+<li><a href="../lesson1/">Basic Structure & CRUD</a></li>
+<li><a href="../lesson2/">Comparison Operators</a></li>
+<li><a href="../lesson3/">Logical Operators</a></li>
+<li><a href="../lesson4/">Array & Embedded Document Queries</a></li>
+<li><a href="../lesson5/">Projection, Sort, Skip, Limit</a></li>
+<li><a href="../lesson6/">Update Operators</a></li>
+<li><a href="../lesson7/">Schema Validation (Part 1)</a></li>
+<li><a href="../lesson8/" class="active" style="font-weight: bold;">Schema Validation (Part 2) & Ordered Inserts</a></li>
+<li><a href="../lesson9/">Aggregation Framework (Basic)</a></li>
+<li><a href="../lesson10/">Aggregation: Unwind & Group</a></li>
+<li><a href="../lesson11/">Aggregation: Buckets & Sets</a></li>
+<li><a href="../lesson12/">Aggregation: $lookup (Joins)</a></li>
+<li><a href="../lesson13/">Indexes and Performance</a></li>
+</ul>
+                    </div>
+                </nav>
+            </aside>
+
+            <section id="content-container">
+
+    <article>
+        <header>
+            <h2>Viva Prep: Schema Validation (Part 2) & Ordered Inserts</h2>
+            <p><strong>Source File:</strong> <code>8day.js</code></p>
+        </header>
+
+        <section style="margin-top: 2rem;">
+            <h3>Raw Queries</h3>
+            <pre><code class="language-mongodb">/*
+db.createCollection(&quot;students&quot;, {
+  validator: {
+    $jsonSchema: {
+      bsonType: &quot;object&quot;,
+
+      required: [&quot;name&quot;, &quot;password&quot;, &quot;email&quot;, &quot;height&quot;, &quot;phonenumber&quot;, &quot;roll&quot;, &quot;isMarried&quot;, &quot;gender&quot;, &quot;dob&quot;, &quot;location&quot;, &quot;favTeacher&quot;, &quot;favSubject&quot;],
+
+      additionalProperties: false,
+
+      properties: {
+        name: {
+          bsonType: &quot;string&quot;,
+          description: &quot; name must be a string&quot;,
+            minLength: 3,
+            maxLength: 20,
+        },
+
+        password: {
+          bsonType: &quot;string&quot;,
+          description: &quot;password must be a string minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character&quot;,
+          pattern: &quot;^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&amp;])[A-Za-z\\d@$!%*?&amp;]{8,}$&quot;
+        },
+
+        email: {
+          bsonType: &quot;string&quot;,
+          description: &quot;email must be a string and must be a valid email address&quot;,
+          pattern: &quot;^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$&quot;
+        },
+
+        height: {
+          bsonType: &quot;number&quot;,
+          description: &quot;height must be a number&quot;
+        },
+
+        phonenumber: {
+          bsonType: &quot;string&quot;,
+          description: &quot;phone number must be a string and must be a valid phone number&quot;,
+            pattern: &quot;^[0-9]{10}$&quot;
+        },
+
+        roll: {
+          bsonType: &quot;number&quot;,
+          description: &quot;roll number must be a number&quot;
+        },
+
+        isMarried: {
+          bsonType: &quot;bool&quot;,
+          description: &quot;isMarried must be a boolean&quot;
+        },
+
+        gender: {
+          bsonType: &quot;string&quot;,
+          description: &quot;gender must be a string&quot;
+        },
+
+        dob: {
+          bsonType: &quot;date&quot;,
+          description: &quot;dob must be a date&quot;
+        },
+
+        location: {
+          bsonType: &quot;object&quot;,
+
+          required: [&quot;country&quot;, &quot;exactLocation&quot;],
+
+          additionalProperties: false,
+
+          properties: {
+            country: {
+              bsonType: &quot;string&quot;,
+              description: &quot;country must be a string&quot;
+            },
+
+            exactLocation: {
+              bsonType: &quot;string&quot;,
+              description: &quot;exactLocation must be a string&quot;
+            }
+          }
+        },
+
+        favTeacher: {
+          bsonType: &quot;array&quot;,
+          description: &quot;favTeacher must be an array&quot;,
+
+          items: {
+            bsonType: &quot;string&quot;,
+            description: &quot;each teacher must be a string&quot;
+          }
+        },
+
+        favSubject: {
+          bsonType: &quot;array&quot;,
+          description: &quot;Array of favorite subjects&quot;,
+
+          items: {
+            bsonType: &quot;object&quot;,
+
+            required: [&quot;bookName&quot;, &quot;bookAuthor&quot;],
+
+            additionalProperties: false,
+
+            properties: {
+              bookName: {
+                bsonType: &quot;string&quot;,
+                description: &quot;must be a string&quot;
+              },
+
+              bookAuthor: {
+                bsonType: &quot;string&quot;,
+                description: &quot;must be a string&quot;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+});
+
+
+db.students.insertMany([
+  {_id: 1, name: &quot;Ram&quot;},
+  {_id:2, name: &quot;sita&quot;},
+  {_id:1, name: &quot;hari&quot;},
+  {_id:3, name: &quot;gita&quot;},
+  {_id:4, name: &quot;shyam&quot;},
+  {_id:3, name: &quot;laxmi&quot;},
+],
+{ordered: true} // this will allow the insertion of other documents even if one document fails due to duplicate _id
+);
+
+
+
+
+
+*/</code></pre>
+        </section>
+    <section style="margin-top: 2rem;"><h3>Deep Dive Concepts</h3>
+            <details style="margin-bottom: 1rem;" open>
+                <summary><strong>Ordered vs Unordered Inserts</strong></summary>
+                <div style="padding-left: 1rem; border-left: 3px solid var(--primary); margin-top: 1rem;">
+                    <p><strong>The Plain-English Breakdown:</strong> When inserting many documents, ordered: true (default) stops on the first error. ordered: false attempts to insert all documents, ignoring individual failures like duplicate keys.</p>
+                    <p><strong>Real-World Use Case:</strong> Bulk importing logs where you want to skip duplicates but keep inserting the rest (ordered: false).</p>
+                    <p><strong>The "Gotcha" (Common Pitfalls):</strong> <mark>Even with ordered: false, if there's a syntax error, the whole operation fails. It only bypasses constraint errors (like duplicate _id).</mark></p>
+                    <p><strong>Memorization Hook:</strong> <em>Ordered = Stop on red light. Unordered = Run red lights.</em></p>
+                </div>
+            </details>
+            </section>
+        <section style="margin-top: 2rem; background: var(--card-sectionning-background-color); padding: 1.5rem; border-radius: var(--border-radius);">
+            <h3>Examiner Q&A Simulator</h3>
+            <p><small>Click a question to reveal the answer.</small></p>
+
+            <details style="margin-bottom: 0.5rem;">
+                <summary><strong>Examiner: What is the default behavior of insertMany if one document fails a unique index constraint?</strong></summary>
+                <div style="padding: 1rem; background: var(--background-color); margin-top: 0.5rem; border-radius: var(--border-radius);">
+                    By default (ordered: true), it aborts the operation and subsequent documents in the array are not inserted.
+                </div>
+            </details>
+            </section>
+    </article>
+            </section>
+        </div>
+
+        <footer id="footer-container" style="margin-top: 3rem; border-top: 1px solid var(--muted-border-color); padding-top: 1.5rem;">
+            <h3>Credits & Resources</h3>
+            <p>
+                The JavaScript examples and tutorials provided here are credited to my friend, the original author of the repository.
+            </p>
+            <p>
+                <strong>Further Self-Study Resources:</strong>
+                <ul>
+                    <li><a href="https://www.mongodb.com/docs/manual/" target="_blank">Official MongoDB Manual</a></li>
+                    <li><a href="https://www.mongodb.com/docs/drivers/node/current/" target="_blank">MongoDB Node.js Driver Documentation</a></li>
+                </ul>
+            </p>
+        </footer>
+    </main>
+
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+</body>
+</html>
