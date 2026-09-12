@@ -471,7 +471,7 @@ article section h3 {
 /* Slide Deck Cards Grid */
 .slides-catalog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
     gap: 1.5rem;
     margin-top: 1.25rem;
     margin-bottom: 3rem;
@@ -861,6 +861,55 @@ footer h3 {
 }
 
 /* Responsive adjustments */
+@media (max-width: 1200px) {
+    .container {
+        max-width: 100%;
+        padding: 0 1.25rem;
+    }
+
+    .grid {
+        grid-template-columns: 250px minmax(0, 1fr);
+        gap: 1.5rem;
+    }
+
+    .hero-card {
+        padding: 1.75rem 2rem;
+    }
+
+    .hero-title {
+        font-size: 1.95rem;
+    }
+
+    .slides-catalog-grid {
+        grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+        gap: 1.25rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    .grid {
+        grid-template-columns: 230px minmax(0, 1fr);
+        gap: 1.25rem;
+    }
+
+    .hero-title {
+        font-size: 1.75rem;
+    }
+
+    .hero-card {
+        padding: 1.5rem;
+    }
+
+    .hero-stats-row {
+        gap: 1.25rem;
+        padding-top: 1.25rem;
+    }
+
+    .stat-value {
+        font-size: 1.35rem;
+    }
+}
+
 @media (max-width: 900px) {
     .grid {
         grid-template-columns: 1fr;
@@ -882,7 +931,7 @@ footer h3 {
     }
 
     .hero-title {
-        font-size: 1.7rem;
+        font-size: 1.65rem;
     }
 
     .slides-catalog-grid {
