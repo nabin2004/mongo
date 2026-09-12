@@ -916,6 +916,10 @@ footer h3 {
         gap: 1.5rem;
     }
 
+    body.sidebar-collapsed .grid {
+        grid-template-columns: 1fr;
+    }
+
     aside {
         position: static;
         max-height: none;
