@@ -72,7 +72,7 @@ def generate_html_wrapper(title, content_html, active_lesson_num=None, is_root=F
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <!-- Prism.css for syntax highlighting -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="{base_path}styles.css?v=20260911_v5">
+    <link rel="stylesheet" href="{base_path}styles.css?v=20260912_v6">
 </head>
 <body>
     <!-- Floating expand button when sidebar is collapsed -->
@@ -178,10 +178,23 @@ def generate_html_wrapper(title, content_html, active_lesson_num=None, is_root=F
             const savedTheme = localStorage.getItem('theme') || 'dark';
             updateThemeButton(savedTheme);
 
-            if (localStorage.getItem('sidebar_collapsed') === 'true') {{
+            const savedSidebar = localStorage.getItem('sidebar_collapsed');
+            // On mobile (<= 768px), default to collapsed unless explicitly set to false
+            if (savedSidebar === 'true' || (window.innerWidth <= 768 && savedSidebar !== 'false')) {{
                 document.body.classList.add('sidebar-collapsed');
             }}
         }})();
+
+        // Close mobile drawer when tapping outside
+        document.addEventListener('click', function(e) {{
+            if (window.innerWidth <= 768 && !document.body.classList.contains('sidebar-collapsed')) {{
+                const sidebar = document.getElementById('main-sidebar');
+                const toggleBtn = document.getElementById('floating-sidebar-toggle');
+                if (sidebar && !sidebar.contains(e.target) && toggleBtn && !toggleBtn.contains(e.target)) {{
+                    toggleSidebar();
+                }}
+            }}
+        }});
     </script>
 </body>
 </html>"""
